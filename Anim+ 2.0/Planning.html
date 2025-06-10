@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anim+</title>
+    <link rel="stylesheet" href="css/Planning.css">
+    <link rel="stylesheet" href="css/navbar & header.css">
+    <link rel="stylesheet" href="css/body.Css">
+    <link rel="stylesheet" href="css/Footer.css">
+
+
+
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/connexion.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier si l'utilisateur est connecté
+            const userId = localStorage.getItem('userId');
+            const username = localStorage.getItem('username');
+            const actionsDiv = document.querySelector('.actions');
+            
+            if (userId) {
+                // Si l'utilisateur est connecté, afficher le bouton avec le nom d'utilisateur
+                actionsDiv.innerHTML = `
+                    <a href="search.html">
+                        <button class="btn-box-icon">
+                            <i class='bx bx-search'></i>
+                            Recherche
+                        </button>
+                    </a>
+                    <a href="profile.html">
+                        <button class="btn-login">${username}</button>
+                    </a>
+                `;
+            } else {
+                // Si l'utilisateur n'est pas connecté, afficher le bouton connexion
+                actionsDiv.innerHTML = `
+                    <a href="search.html">
+                        <button class="btn-box-icon">
+                            <i class='bx bx-search'></i>
+                            Recherche
+                        </button>
+                    </a>
+                    <a href="login.html">
+                        <button class="btn-login">Connexion</button>
+                    </a>
+                `;
+            }
+        });
+    </script>
+
+</head>
+<body>
+ 
+
+<button id="scrollToTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+  <i class='bx bx-chevron-up'></i>
+</button>
+
+
+
+
+
+
+
+
+      <div class="navbar-bottom">
+
+        <a class='nav-item ' href='accueil.html' id='home'>
+            <i class='bx bx-home-alt-2'></i>
+            
+        </a>
+        <a href="Catalogue.html" class="nav-item " id="bible">
+            <i class='bx bx-collection'></i>
+        </a>
+        <a href="Planning.html" class="nav-item active" id="music">
+           <i class="fa-solid fa-calendar-days"></i>
+        </a>
+
+
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
+        </div>
+        <ul class="menu">
+          <li><a href="Accueil.html" >Accueil</a></li>
+            <li><a href="Catalogue.html" >Catalogue</a></li>
+            <li><a href="Planning.html" class="active">Planning</a></li>
+        </ul>
+
+        
+      
+<div class="actions">
+    <a href="search.html">
+        <button class="btn-box-icon">
+            <i class='bx bx-search'></i>
+            Recherche
+        </button>
+    </a>
+
+    <a href="/connexion">
+        <button class="btn-login">Connexion</button>
+    </a>
+</div>
+
+
+
+    </nav>
+
+</header>
+
+
+
+
+
+
+
+
+
+<div class="hero-image">
+  <img src="assets/font catalogue animplus.png" alt="Image hero" />
+
+  <div class="hero-text">
+    <h1><i class="fa-solid fa-calendar-days"></i> Planning</h1>
+
+
+    <p>
+  Ne manquez plus aucune sortie d'anime !
+   Consultez notre planning pour découvrir les dates de diffusion, 
+
+</p>
+
+  </div>
+
+    <div class="hero-separator"></div>
+
+</div>
+
+
+
+
+
+
+
+<section class="anime-schedule">
+
+    <div class="filter-buttons" style="text-align:center; margin-bottom: 1.5rem;">
+    <button class="filter-btn active" data-filter="all">Tous</button>
+    <button class="filter-btn" data-filter="vostfr">VOSTFR</button>
+    <button class="filter-btn" data-filter="vf">VF</button>
+  </div>
+
+
+  <div class="schedule-grid">
+    
+
+
+
+<div class="day-card" id="Lundi" data-day="Lundi">
+  <h3>Lundi</h3>
+  <div class="day-content">
+    
+ 
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/mhaaa.png" alt="My Hero Academia" />
+      </a>
+      <div class="anime-info">
+        <h4>My Hero Academia</h4>
+        <p>Nouveaux épisodes chaque lundi à 18h.</p>
+        <div class="separator"></div>
+        <small>Le retour d'Izuku 🔥</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/AO ASHI/AO ASHI 1.jpg" alt="Attack on Titan" />
+      </a>
+      <div class="anime-info">
+        <h4>Ao ashi</h4>
+        <p>Nouveaux épisodes chaque lundi à 20h.</p>
+        <div class="separator"></div>
+        <small>La bataille finale approche ⚔️</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+ 
+      <div class="anime-card" data-lang="vostfr">
+      <a href="1-Solo-leveling-Saison-1.HTML"  rel="noopener noreferrer">
+        <img src="assets/img/solo level.webp" alt="My Hero Academia" />
+      </a>
+      <div class="anime-info">
+        <h4>Solo Leveling</h4>
+        <p>Nouveaux épisodes chaque lundi à 18h.</p>
+        <div class="separator"></div>
+        <small>Le retour d'Izuku 🔥</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+          <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/fairy tail.jpeg" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+          <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/fire force 1.webp" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+          <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/boruto.jpeg" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+          <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/bluelock.jpg" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+          <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/code-geass.webp" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+          <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/assas classroom.jpg" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="day-card" id="Mardi">
+  <h3>Mardi</h3>
+  <div class="day-content">
+    
+ 
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/mhaaa.png" alt="My Hero Academia" />
+      </a>
+      <div class="anime-info">
+        <h4>My Hero Academia</h4>
+        <p>Nouveaux épisodes chaque lundi à 18h.</p>
+        <div class="separator"></div>
+        <small>Le retour d'Izuku 🔥</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/SNK/atk.jpg" alt="Attack on Titan" />
+      </a>
+      <div class="anime-info">
+        <h4>Attack on Titan</h4>
+        <p>Nouveaux épisodes chaque lundi à 20h.</p>
+        <div class="separator"></div>
+        <small>La bataille finale approche ⚔️</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+ 
+      <div class="anime-card" data-lang="vf">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/dms.png" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+        <button class="btn">VF</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="day-card" id="Mercredi">
+  <h3>Mercredi</h3>
+  <div class="day-content">
+    
+ 
+      <div class="anime-card" data-lang="vostfr">
+      <a href="1-Solo-leveling-Saison-1.HTML"  rel="noopener noreferrer">
+        <img src="assets/img/solo level.webp" alt="My Hero Academia" />
+      </a>
+      <div class="anime-info">
+        <h4>Solo Leveling</h4>
+        <p>Nouveaux épisodes chaque lundi à 18h.</p>
+        <div class="separator"></div>
+        <small>Le retour d'Izuku 🔥</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/SNK/atk.jpg" alt="Attack on Titan" />
+      </a>
+      <div class="anime-info">
+        <h4>Attack on Titan</h4>
+        <p>Nouveaux épisodes chaque lundi à 20h.</p>
+        <div class="separator"></div>
+        <small>La bataille finale approche ⚔️</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+
+
+      <div class="anime-card" data-lang="vf">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/dms.png" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+   <button class="btn">VF</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="day-card" id="Jeudi">
+  <h3>Jeudi</h3>
+  <div class="day-content">
+    
+ 
+      <div class="anime-card" data-lang="vf">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/mhaaa.png" alt="My Hero Academia" />
+      </a>
+      <div class="anime-info">
+        <h4>My Hero Academia</h4>
+        <p>Nouveaux épisodes chaque lundi à 18h.</p>
+        <div class="separator"></div>
+        <small>Le retour d'Izuku 🔥</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">vf</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/SNK/atk.jpg" alt="Attack on Titan" />
+      </a>
+      <div class="anime-info">
+        <h4>Attack on Titan</h4>
+        <p>Nouveaux épisodes chaque lundi à 20h.</p>
+        <div class="separator"></div>
+        <small>La bataille finale approche ⚔️</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">FILM</button>
+      </div>
+    </div>
+
+ 
+      <div class="anime-card" data-lang="vf">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/dms.png" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+   <button class="btn">VF</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="day-card" id="Vendredi">
+  <h3>Vendredi</h3>
+  <div class="day-content">
+    
+ 
+       <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/mhaaa.png" alt="My Hero Academia" />
+      </a>
+      <div class="anime-info">
+        <h4>My Hero Academia</h4>
+        <p>Nouveaux épisodes chaque lundi à 18h.</p>
+        <div class="separator"></div>
+        <small>Le retour d'Izuku 🔥</small>
+      </div>
+      <div class="anime-buttons">
+      <button class="btn">VOSTFR</button>
+       <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/SNK/atk.jpg" alt="Attack on Titan" />
+      </a>
+      <div class="anime-info">
+        <h4>Attack on Titan</h4>
+        <p>Nouveaux épisodes chaque lundi à 20h.</p>
+        <div class="separator"></div>
+        <small>La bataille finale approche ⚔️</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+ 
+      <div class="anime-card" data-lang="vf">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/dms.png" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+     <button class="btn">VF</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="day-card" id="Samedi">
+  <h3>Samedi</h3>
+  <div class="day-content">
+    
+ 
+      <div class="anime-card" data-lang="vf">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/mhaaa.png" alt="My Hero Academia" />
+      </a>
+      <div class="anime-info">
+        <h4>My Hero Academia</h4>
+        <p>Nouveaux épisodes chaque lundi à 18h.</p>
+        <div class="separator"></div>
+        <small>Le retour d'Izuku 🔥</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VF</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/SNK/atk.jpg" alt="Attack on Titan" />
+      </a>
+      <div class="anime-info">
+        <h4>Attack on Titan</h4>
+        <p>Nouveaux épisodes chaque lundi à 20h.</p>
+        <div class="separator"></div>
+        <small>La bataille finale approche ⚔️</small>
+      </div>
+      <div class="anime-buttons">
+   <button class="btn">VOSTFR</button>
+        <button class="btn">FILM</button>
+      </div>
+    </div>
+
+ 
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/dms.png" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+    <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="day-card" id="Dimanche">
+  <h3>Dimanche</h3>
+  <div class="day-content">
+    
+ 
+      <div class="anime-card" data-lang="vf">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/mhaaa.png" alt="My Hero Academia" />
+      </a>
+      <div class="anime-info">
+        <h4>My Hero Academia</h4>
+        <p>Nouveaux épisodes chaque lundi à 18h.</p>
+        <div class="separator"></div>
+        <small>Le retour d'Izuku 🔥</small>
+      </div>
+      <div class="anime-buttons">
+        <button class="btn">VF</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+      <div class="anime-card" data-lang="vostfr">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/SNK/atk.jpg" alt="Attack on Titan" />
+      </a>
+      <div class="anime-info">
+        <h4>Attack on Titan</h4>
+        <p>Nouveaux épisodes chaque lundi à 20h.</p>
+        <div class="separator"></div>
+        <small>La bataille finale approche ⚔️</small>
+      </div>
+      <div class="anime-buttons">
+          <button class="btn">VOSTFR</button>
+        <button class="btn">SERIE</button>
+      </div>
+    </div>
+
+ 
+      <div class="anime-card" data-lang="vf">
+      <a href=""  rel="noopener noreferrer">
+        <img src="assets/img/dms.png" alt="Demon Slayer" />
+      </a>
+      <div class="anime-info">
+        <h4>Demon Slayer</h4>
+        <p>Nouveaux épisodes chaque lundi à 22h.</p>
+        <div class="separator"></div>
+        <small>Tanjiro revient pour de nouvelles aventures 🔥</small>
+      </div>
+
+      <div class="anime-buttons">
+      <button class="btn">VF</button>
+        <button class="btn">SERIE</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="custom-footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <h3 class="footer-title">
+        <i class='bx bx-info-circle'></i> À propos
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <h3 class="footer-title">
+        <i class='bx bx-file'></i> Informations
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+  </div>
+
+
+<div class="footer-bottom">
+  <div class="social-links">
+    <a href="" target="_blank" aria-label="Discord">
+      <i class="fa-brands fa-discord"></i>
+    </a>
+
+    <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+      <i class="fa-brands fa-twitter"></i>
+    </a>
+
+  </div>
+  <p class="creator-text">Anim+ créé par   AnimPluscorp © 2025</p>
+</div>
+
+
+</footer>
+
+
+
+
+
+
+    <script src="js/navbar.js"></script>
+   <script src="js/Planning.js"></script>
+   <script src="js/btnup.js"></script>
+</body>
+</html>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anim+</title>
+    <link rel="stylesheet" href="css/episodes.css">
+    <link rel="stylesheet" href="css/navbar & header.css">
+    <link rel="stylesheet" href="css/body.Css">
+        <link rel="stylesheet" href="css/video.css">
+    <link rel="stylesheet" href="css/Footer.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/connexion.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier si l'utilisateur est connecté
+            const userId = localStorage.getItem('userId');
+            const username = localStorage.getItem('username');
+            const actionsDiv = document.querySelector('.actions');
+            
+            if (userId) {
+                // Si l'utilisateur est connecté, afficher le bouton avec le nom d'utilisateur
+                actionsDiv.innerHTML = `
+                    <a href="search.html">
+                        <button class="btn-box-icon">
+                            <i class='bx bx-search'></i>
+                            Recherche
+                        </button>
+                    </a>
+                    <a href="profile.html">
+                        <button class="btn-login">${username}</button>
+                    </a>
+                `;
+            } else {
+                // Si l'utilisateur n'est pas connecté, afficher le bouton connexion
+                actionsDiv.innerHTML = `
+                    <a href="search.html">
+                        <button class="btn-box-icon">
+                            <i class='bx bx-search'></i>
+                            Recherche
+                        </button>
+                    </a>
+                    <a href="login.html">
+                        <button class="btn-login">Connexion</button>
+                    </a>
+                `;
+            }
+        });
+    </script>
+
+</head>
+<body>
+ 
+
+
+
+
+  
+      <div class="navbar-bottom">
+
+        <a class='nav-item active' href='accueil.html' id='home'>
+            <i class='bx bx-home-alt-2'></i>
+            
+        </a>
+        <a href="Catalogue.html" class="nav-item" id="bible">
+            <i class='bx bx-collection'></i>
+        </a>
+        <a href="Planning.html" class="nav-item" id="music">
+           <i class="fa-solid fa-calendar-days"></i>
+        </a>
+
+
+    </div>
+
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
+        </div>
+    <ul class="menu">
+          <li><a href="Accueil.html"  >Accueil</a></li>
+            <li><a href="Catalogue.html" >Catalogue</a></li>
+            <li><a href="Planning.html">Planning</a></li>
+        </ul>
+
+
+        
+      
+<div class="actions">
+    <a href="search.html">
+        <button class="btn-box-icon">
+            <i class='bx bx-search'></i>
+            Recherche
+        </button>
+    </a>
+
+    <a href="/connexion">
+        <button class="btn-login">Connexion</button>
+    </a>
+</div>
+
+
+
+    </nav>
+
+</header>
+
+
+
+
+
+
+
+<div class="hero-image">
+  <img src="assets/img/solo level.webp" alt="Image hero" />
+
+  <div class="hero-info">
+    <img class="poster" src="assets/img/affiche/affiche solo leveling.jpg" alt="Affiche Solo Leveling" />
+    <div class="info-text">
+      <h1>Solo Leveling</h1>
+      <p class="meta">
+        Genre : <span class="genre">Action · vo · Fantastique</span> | 
+        <span class="season">2 saison</span>
+      </p>
+      <p class="synopsis">
+        Après avoir été mortellement blessé lorsqu'il est tombé par hasard sur un double donjon caché,
+        Jinwoo est miraculeusement rescapé. Au bord de la mort, 
+        il entrevoit une quête et saisit une opportunité 
+        qui lui permet dès lors de gagner en puissance très rapidement.
+      </p>
+
+      <div class="action-buttons">
+        <a href="#" id="hero-btn" class="hero-btn">
+          <i class='bx bx-play'></i>
+          <span>Regarder</span>
+        </a>
+        
+        <button id="addToFavorites" class="action-btn" onclick="addToFavorites('solo-leveling', 'Solo Leveling', 'assets/img/affiche/affiche solo leveling.jpg')">
+          <i class='bx bx-heart'></i>
+          <span>Ajouter aux favoris</span>
+        </button>
+        
+        <button id="addToWatchlist" class="action-btn" onclick="addToWatchlist('solo-leveling', 'Solo Leveling', 'assets/img/affiche/affiche solo leveling.jpg')">
+          <i class='bx bx-bookmark-plus'></i>
+          <span>À regarder plus tard</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="hero-tabs">
+  <button class="tab-btn active" data-tab="episodes">
+    <i class='bx bx-list-ul'></i> Épisodes
+  </button>
+  <button class="tab-btn" data-tab="similaires">
+    <i class='bx bx-heart'></i> Contenus similaires
+  </button>
+
+</div>
+
+<div class="tab-content">
+
+
+
+
+
+  <div class="tab-panel active" id="episodes">
+
+    <div class="episodes-header">
+  <h2>LISTE DES ÉPISODES</h2>
+  <button id="toggleOrder" title="Changer l'ordre">
+    <i class="fas fa-sort-amount-down-alt"></i>
+  </button>
+</div>
+
+    <div class="grid-cards">
+      
+
+      <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5389406">
+        <img src="assets/img/SOLO LEVEL/EP1.avif" alt="Épisode 1" />
+        <h3>Épisode 1 - J'y suis habitué</h3>
+      </div>
+
+      <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5397577">
+        <img src="assets/img/SOLO LEVEL/EP2.avif" alt="Épisode 2" />
+        <h3>Épisode 2 - Si j'avais encore une chance</h3>
+      </div>
+
+      <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5406329">
+        <img src="assets/img/SOLO LEVEL/EP3.avif" alt="Épisode 3" />
+        <h3>Épisode 3 - C'est comme un jeu</h3>
+      </div>
+
+      <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5414604">
+        <img src="assets/img/SOLO LEVEL/EP4.avif" alt="Épisode 4" />
+        <h3>Épisode 4 - Je dois devenir plus fort</h3>
+      </div>
+
+         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5421264">
+        <img src="assets/img/SOLO LEVEL/EP5.png" alt="Épisode 4" />
+        <h3>Épisode 5 -  Une très bonne affaire</h3>
+      </div>
+
+         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5428101">
+        <img src="assets/img/SOLO LEVEL/EP6.jfif" alt="Épisode 4" />
+        <h3>Épisode 6 - La vraie chasse commence</h3>
+      </div>
+
+         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5435724">
+        <img src="assets/img/SOLO LEVEL/EP7.avif" alt="Épisode 4" />
+        <h3>Épisode 7 -  Voyons jusqu'où je peux aller</h3>
+      </div>
+
+    <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5444576">
+        <img src="assets/img/SOLO LEVEL/E7.5.webp" alt="Épisode 4" />
+        <h3>Épisode 7,5 -   Comment devenir plus fort</h3>
+      </div>
+
+
+         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5453063">
+        <img src="assets/img/SOLO LEVEL/EP8.webp" alt="Épisode 4" />
+        <h3>Épisode 8 - C'est frustrant</h3>
+      </div>
+
+         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5461770">
+        <img src="assets/img/SOLO LEVEL/EP9.webp" alt="Épisode 4" />
+        <h3>Épisode 9 - Vous avez caché vos compétences</h3>
+      </div>
+
+         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5470382">
+        <img src="assets/img/SOLO LEVEL/EP 10.webp" alt="Épisode 4" />
+        <h3>Épisode 10 - Qu'est-ce que c'est, un pique-nique ?</h3>
+      </div>
+
+         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5479260">
+        <img src="assets/img/SOLO LEVEL/EP 11.webp" alt="Épisode 4" />
+        <h3>Épisode 11 -  Un chevalier qui défend un trône vide</h3>
+      </div>
+
+          <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5487838">
+        <img src="assets/img/SOLO LEVEL/EP 12.webp" alt="Épisode 4" />
+        <h3>Épisode 12 -  Lève-toi</h3>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+
+  <div class="tab-panel" id="similaires">
+
+
+  <div class="similar-shows-panel" id="similaires">
+  <div class="similar-grid">
+
+
+<a href="lien1.html" class="similar-card">
+  <img src="assets/img/affiche/SOLO LEVEL S2.webp" alt="Solo Leveling Saison 2" />
+  <h3>Solo Leveling Saison 2 </h3>
+</a>
+
+
+<a href="lien2.html" class="similar-card">
+  <img src="assets/img/affiche/affiche jujutsu kaisen.jpg" alt="Jujutsu Kaisen" />
+  <h3>Jujutsu Kaisen</h3>
+</a>
+
+<a href="lien3.html" class="similar-card">
+  <img src="assets/img/affiche/chain.jpg" alt="Chainsaw Man" />
+  <h3>Chainsaw Man</h3>
+</a>
+
+<a href="lien4.html" class="similar-card">
+  <img src="assets/img/affiche/snk affiche saison 1.jpg" alt="Shingeki no Kyojin" />
+  <h3>Shingeki no Kyojin</h3>
+</a>
+
+<a href="lien5.html" class="similar-card">
+  <img src="assets/img/affiche/Naruto AFFICHE.jpg" alt="Naruto Shippuden" />
+  <h3>Naruto Shippuden</h3>
+</a>
+
+
+
+  </div>
+</div>
+
+    
+  </div>
+
+  
+</div>
+
+
+
+
+
+
+<div id="video-popup" class="video-popup">
+  <div class="video-controls">
+
+
+        <div class="dropdown">
+      <button id="dropdownBtn" class="btn-back dropdown-toggle">
+        <img src="assets/logo Anim+ SANS FOND.png" alt="Menu" class="btn-icon" />
+        Menu
+        <span class="arrow">&#9662;</span>
+      </button>
+      <div id="dropdownMenu" class="dropdown-menu">
+        <button id="back-btn" class="dropdown-item">
+          <img src="assets/logo Anim+ SANS FOND.png" alt="Retour" class="btn-icon" />
+          Retour
+        </button>
+        <button class="dropdown-item">Lecteur 1</button>
+        <button class="dropdown-item">Lecteur 2</button>
+
+      </div>
+    </div>
+
+
+    <div class="next-prev">
+ <button id="prev-btn" class="btn-prev">
+  <i class='bx bx-chevron-left'></i>
+  <span class="episode-label">EP1</span>
+</button>
+<button id="next-btn" class="btn-next">
+  <span class="episode-label">EP2</span>
+  <i class='bx bx-chevron-right'></i>
+</button>
+
+    </div>
+  </div>
+  <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
+</div>
+
+
+
+
+
+
+<script>
+const videoUrlsLecteur1 = [
+  'https://video.sibnet.ru/shell.php?videoid=5389406',
+  'https://video.sibnet.ru/shell.php?videoid=5397577',
+  'https://video.sibnet.ru/shell.php?videoid=5406329',
+  'https://video.sibnet.ru/shell.php?videoid=5414604',
+  'https://video.sibnet.ru/shell.php?videoid=5421264',
+  'https://video.sibnet.ru/shell.php?videoid=5428101',
+  'https://video.sibnet.ru/shell.php?videoid=5435724',
+  'https://video.sibnet.ru/shell.php?videoid=5444576',
+'  https://video.sibnet.ru/shell.php?videoid=5453063',
+'  https://video.sibnet.ru/shell.php?videoid=5461770',
+'  https://video.sibnet.ru/shell.php?videoid=5470382',
+'  https://video.sibnet.ru/shell.php?videoid=5479260',
+'  https://video.sibnet.ru/shell.php?videoid=5487838',
+
+
+];
+
+
+
+const videoUrlsLecteur2 = [
+  'https://vidmoly.to/embed-bk4i3184ecvg.html',
+  'https://autresite.com/video?id=2222',
+  'https://autresite.com/video?id=3333',
+
+];
+
+let activeLecteur = 'lecteur1';
+let videoUrls = videoUrlsLecteur1;  
+
+const lecteur1Btn = document.querySelector(".dropdown-item:nth-child(2)");
+const lecteur2Btn = document.querySelector(".dropdown-item:nth-child(3)");
+
+lecteur1Btn.addEventListener("click", () => {
+  activeLecteur = 'lecteur1';
+  videoUrls = videoUrlsLecteur1;
+  if (currentIndex >= 0) openPopupWithEpisode(currentIndex);
+  dropdownMenu.style.display = "none";
+});
+
+lecteur2Btn.addEventListener("click", () => {
+  activeLecteur = 'lecteur2';
+  videoUrls = videoUrlsLecteur2;
+  if (currentIndex >= 0) openPopupWithEpisode(currentIndex);
+  dropdownMenu.style.display = "none";
+});
+
+
+const cards = document.querySelectorAll(".card");
+const popup = document.getElementById("video-popup");
+const iframe = document.getElementById("video-frame");
+const backBtn = document.getElementById("back-btn");
+const nextBtn = document.getElementById("next-btn");
+const prevBtn = document.getElementById("prev-btn");
+
+const prevLabel = prevBtn.querySelector(".episode-label");
+const nextLabel = nextBtn.querySelector(".episode-label");
+
+const heroBtn = document.getElementById("hero-btn");
+const heroBtnText = heroBtn.querySelector("span");
+
+let currentIndex = -1;
+
+
+function updateEpisodeLabels(index) {
+  prevLabel.textContent = index > 0 ? `EP${index}` : "";
+  nextLabel.textContent = index < videoUrls.length - 1 ? `EP${index + 2}` : "";
+}
+
+
+function updateHeroBtn(index) {
+  if (index >= 0 && index < videoUrls.length) {
+    heroBtnText.textContent = `Reprendre EP${index + 1}`;
+    heroBtn.classList.remove("disabled");
+  } else {
+    heroBtnText.textContent = "Regarder";
+    heroBtn.classList.add("disabled");
+  }
+}
+
+
+function openPopupWithEpisode(index) {
+  if (index < 0 || index >= videoUrls.length) return;
+  currentIndex = index;
+  iframe.src = videoUrls[index];
+  popup.style.display = "flex";
+  updateEpisodeLabels(index);
+  updateHeroBtn(index);
+  localStorage.setItem("lastEpisodeIndex", index); 
+}
+
+
+function changeEpisode(index) {
+  if (index < 0 || index >= videoUrls.length) return;
+  openPopupWithEpisode(index); 
+}
+
+
+cards.forEach((card, index) => {
+  const videoUrl = card.getAttribute("data-video");
+  if (videoUrl) {
+    card.addEventListener("click", () => {
+      openPopupWithEpisode(index);
+    });
+  }
+});
+
+
+heroBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const savedIndex = parseInt(localStorage.getItem("lastEpisodeIndex"));
+  if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < videoUrls.length) {
+    openPopupWithEpisode(savedIndex);
+  } else {
+    openPopupWithEpisode(0); 
+  }
+});
+
+
+nextBtn.addEventListener("click", () => {
+  if (currentIndex < videoUrls.length - 1) {
+    changeEpisode(currentIndex + 1);
+  }
+});
+
+prevBtn.addEventListener("click", () => {
+  if (currentIndex > 0) {
+    changeEpisode(currentIndex - 1);
+  }
+});
+
+
+backBtn.addEventListener("click", () => {
+  popup.style.display = "none";
+  iframe.src = "";
+});
+
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    popup.style.display = "none";
+    iframe.src = "";
+  }
+});
+
+
+const savedIndex = parseInt(localStorage.getItem("lastEpisodeIndex"));
+if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < videoUrls.length) {
+  currentIndex = savedIndex;
+  updateHeroBtn(currentIndex);
+} else {
+  currentIndex = -1;
+  updateHeroBtn(-1);
+}
+
+
+if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < cards.length) {
+  const resumeCard = cards[savedIndex];
+  const img = resumeCard.querySelector("img");
+
+  if (img) {
+    const banner = document.createElement("div");
+    banner.className = "resume-banner";
+
+    banner.innerHTML = `
+      <i class="fas fa-eye" style="margin-right: 6px;"></i>
+      <span>Reprendre le visionnage</span>
+    `;
+
+    resumeCard.style.position = "relative";
+    img.style.position = "relative";
+    resumeCard.appendChild(banner);
+  }
+}
+
+
+
+const dropdownBtn = document.getElementById("dropdownBtn");
+const dropdownMenu = document.getElementById("dropdownMenu");
+
+
+// Toggle menu dropdown au clic sur bouton
+dropdownBtn.addEventListener("click", (e) => {
+  e.stopPropagation(); // éviter fermeture immédiate
+  dropdownMenu.style.display = dropdownMenu.style.display === "flex" ? "none" : "flex";
+  dropdownMenu.style.flexDirection = "column";
+});
+
+// Fermer dropdown si clic en dehors
+window.addEventListener("click", () => {
+  dropdownMenu.style.display = "none";
+});
+
+// Fermer la popup au clic sur "Retour"
+backBtn.addEventListener("click", () => {
+  popup.style.display = "none";
+  iframe.src = "";
+  dropdownMenu.style.display = "none";
+});
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="custom-footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <h3 class="footer-title">
+        <i class='bx bx-info-circle'></i> À propos
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <h3 class="footer-title">
+        <i class='bx bx-file'></i> Informations
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+  </div>
+
+
+<div class="footer-bottom">
+  <div class="social-links">
+    <a href="" target="_blank" aria-label="Discord">
+      <i class="fa-brands fa-discord"></i>
+    </a>
+
+    <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+      <i class="fa-brands fa-twitter"></i>
+    </a>
+
+  </div>
+  <p class="creator-text">Anim+ créé par   AnimPluscorp © 2025</p>
+</div>
+
+
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="js/navbar.js"></script>
+   <script src="js/episodes.js"></script>
+    <script src="js/Details.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anim+</title>
+    <link rel="icon" type="image/png" href="assets/img/logo.png">
+    <link rel="stylesheet" href="css/Styles.css">
+    <link rel="stylesheet" href="css/navbar & header.css">
+    <link rel="stylesheet" href="css/body.Css">
+    <link rel="stylesheet" href="css/Footer.css">
+    <link rel="stylesheet" href="css/connexion.css">
+
+    <link rel="stylesheet" href="css/Landingpage.css">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- Supabase -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="js/connexion.js"></script>
+
+</head>
+<body>
+ 
+
+
+<div id="landing" class="landing-page">
+  <div class="logo-container">
+    <img class="logoS" src="assets/logo Anim+ SANS FOND.png" alt="Logo Anim+" />
+    <span class="plus">+</span>
+  </div>
+</div>
+
+
+  <script>
+    window.addEventListener('load', () => {
+      const plus = document.querySelector('.plus');
+      const landing = document.getElementById('landing');
+      const mainSite = document.getElementById('main-site');
+
+      plus.classList.add('show-plus');
+
+      setTimeout(() => {
+        landing.style.opacity = '0';
+
+        landing.addEventListener('transitionend', () => {
+          landing.style.display = 'none';
+          mainSite.classList.remove('hidden');
+        }, { once: true });
+      }, 3000);
+    });
+  </script>
+
+
+
+  <div id="main-site" class="hidden">
+
+
+
+
+<button id="scrollToTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+  <i class='bx bx-chevron-up'></i>
+</button>
+
+
+
+
+
+
+
+
+
+
+
+      <div class="navbar-bottom">
+
+        <a class='nav-item active' href='accueil.html' id='home'>
+            <i class='bx bx-home-alt-2'></i>
+            
+        </a>
+        <a href="Catalogue.html" class="nav-item" id="bible">
+            <i class='bx bx-collection'></i>
+        </a>
+        <a href="Planning.html" class="nav-item" id="music">
+           <i class="fa-solid fa-calendar-days"></i>
+        </a>
+
+
+    </div>
+    
+
+
+
+
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
+        </div>
+
+          <ul class="menu">
+          <li><a href="Accueil.html" class="active" >Accueil</a></li>
+            <li><a href="Catalogue.html" >Catalogue</a></li>
+            <li><a href="Planning.html">Planning</a></li>
+        </ul>
+
+
+        
+      
+<div class="actions">
+    <a href="search.html">
+        <button class="btn-box-icon">
+            <i class='bx bx-search'></i>
+            Recherche
+        </button>
+    </a>
+
+ <button id="login-button" class="btn-login" onclick="window.openPopup()">Connexion</button>
+</div>
+
+
+
+    </nav>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="login-popup" class="popup hidden">
+  <div class="popup-content">
+
+    <h2 id="popup-title" class="popup-title">Connecte-toi à ton compte</h2>
+
+    <div id="login-form">
+      <input type="text" id="login-username" placeholder="Pseudo" autocomplete="username">
+
+      <h3 class="input-subtitle">Entrez votre personnage préféré</h3>
+
+      <input type="text" id="login-password" placeholder="Personnage préféré">
+
+      <button onclick="submitLogin()" class="btn-submit">Valider</button>
+
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-register" class="link-register">Tu n'as toujours pas de compte ?</a>
+      </div>
+    </div>
+
+    <div id="register-form" class="hidden">
+      <div id="register-step1">
+        <input type="text" id="register-username" placeholder="Pseudo" autocomplete="username">
+        <button onclick="goToStep2()" class="btn-submit">Suivant</button>
+        <div style="text-align: right; margin-top: 5px;">
+          <a href="#" id="switch-to-login" class="link-login">Retour Connexion</a>
+        </div>
+      </div>
+
+      <div id="register-step2" class="hidden">
+        <h3>Choisissez votre image de profil</h3>
+        <div id="profile-pictures" class="profile-pictures-container"></div>
+        <button onclick="goToStep3()" disabled id="profile-next-btn" class="btn-submit">Suivant</button>
+      </div>
+
+      <div id="register-step3" class="hidden">
+        <select id="anime-select" onchange="updateCharacterOptions()">
+          <option value="">Choisissez un anime</option>
+          <option value="snk">Shingeki no Kyojin</option>
+          <option value="onepiece">One Piece</option>
+          <option value="bleach">Bleach</option>
+          <option value="mha">My Hero Academia</option>
+          <option value="naruto">Naruto</option>
+          <option value="dragonball">Dragon Ball</option>
+        </select>
+        <select id="character-select" disabled>
+          <option value="">Choisissez un personnage</option>
+        </select>
+        <button onclick="submitRegister()" class="btn-submit">Créer mon compte</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div id="notification" class="notification hidden"></div> 
+
+
+
+
+
+
+
+<div class="slider">
+    <div class="list">
+        <div class="item active">
+            <img src="assets/img/fire-force-cover-2.png" alt="Slider 01">
+            <div class="content">
+                <p>Série</p>
+                <h2>Fire Force</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, neque?
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, ex.
+                </p>
+<div class="btn-group">
+    <a href="" class="btn btn-primary">En savoir plus</a>
+    <a href="Catalogue.html" class="btn btn-secondary">Catalogue</a>
+</div>
+
+
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="assets/img/BLUE BOX.avif" alt="Slider 02">
+            <div class="content">
+                <p>design</p>
+                <h2>Slider 02</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, neque?
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, ex.
+                </p>
+
+                <div class="btn-group">
+    <a href="" class="btn btn-primary">En savoir plus</a>
+    <a href="Catalogue.html" class="btn btn-secondary">Catalogue</a>
+</div>
+
+
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="assets/img/captaine tsubasa.jpg" alt="Slider 03">
+            <div class="content">
+                <p>design</p>
+                <h2>Slider 03</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, neque?
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, ex.
+                </p>
+<div class="btn-group">
+    <a href="" class="btn btn-primary">En savoir plus</a>
+    <a href="Catalogue.html" class="btn btn-secondary">Catalogue</a>
+</div>
+
+
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="assets/img/dgt.jpg" alt="Slider 04">
+            <div class="content">
+                <p>design</p>
+                <h2>Slider 04</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, neque?
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, ex.
+                </p>
+<div class="btn-group">
+    <a href="" class="btn btn-primary">En savoir plus</a>
+    <a href="Catalogue.html" class="btn btn-secondary">Catalogue</a>
+</div>
+
+
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="assets/img/snk.jpeg" alt="Slider 05">
+            <div class="content">
+                <p>design</p>
+                <h2>Slider 05</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, neque?
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, ex.
+                </p>
+<div class="btn-group">
+    <a href="" class="btn btn-primary">En savoir plus</a>
+    <a href="Catalogue.html" class="btn btn-secondary">Catalogue</a>
+</div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="arrows">
+        <button id="prev"><</button>
+        <button id="next">></button>
+    </div>
+</div>
+
+
+       
+
+
+  <div class="thumbnail">
+    <div class="item active">
+        <a href="#" class="item-link">
+            <img src="assets/img/fire-force-cover-2.png" alt="Slider 1">
+            <div class="content">
+                <h4> Fire Force</h4>
+                <p>Action Sport Shonen</p>
+            </div>
+        </a>
+    </div>
+    <div class="item">
+        <a href="#" class="item-link">
+            <img src="assets/img/BLUE BOX.avif" alt="Slider 2">
+            <div class="content">
+                <h4>Name Slider 2</h4>
+                <p>Action Sport Romance </p>
+            </div>
+        </a>
+    </div>
+    <div class="item">
+        <a href="#" class="item-link">
+            <img src="assets/img/captaine tsubasa.jpg" alt="Slider 3">
+            <div class="content">
+                <h4>Name Slider 3</h4>
+                <p>Action Sport</p>
+            </div>
+        </a>
+    </div>
+    <div class="item">
+        <a href="#" class="item-link">
+            <img src="assets/img/dgt.jpg" alt="Slider 4">
+            <div class="content">
+                <h4>Name Slider 4</h4>
+                <p>Action Sport</p>
+            </div>
+        </a>
+    </div>
+    <div class="item">
+        <a href="#" class="item-link">
+            <img src="assets/img/snk.jpeg" alt="Slider 5">
+            <div class="content">
+                <h4>Name Slider 5</h4>
+                <p>Action Sport </p>
+            </div>
+        </a>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="anime-header">
+  <div id="anime-title"></div>
+  <button id="go-planning-btn" class="btn">  Voir plus</button>
+</div>
+
+<div id="anime-list"></div>
+
+
+<script>
+const container = document.getElementById('anime-list');
+const titleContainer = document.getElementById('anime-title');
+const planningBtn = document.getElementById('go-planning-btn');
+
+function getCurrentDay() {
+  const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+  const now = new Date();
+  return days[now.getDay()];
+}
+
+const today = getCurrentDay();
+
+titleContainer.innerHTML = `<i class="fa-solid fa-calendar-days"></i> Anime du Jour - ${today}`;
+
+fetch('planning.html')
+  .then(response => response.text())
+  .then(htmlString => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+
+    const dayCard = doc.querySelector(`.day-card[data-day="${today}"]`);
+
+    if (dayCard) {
+      const cards = dayCard.querySelectorAll('.anime-card');
+      cards.forEach(card => {
+        const clone = card.cloneNode(true);
+        container.appendChild(clone);
+      });
+    } else {
+      container.textContent = "Pas de programme pour aujourd'hui.";
+    }
+  })
+  .catch(err => {
+    console.error('Erreur lors de la récupération des cartes:', err);
+  });
+
+
+planningBtn.addEventListener('click', () => {
+  window.location.href = 'planning.html';
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sliderrs-container">
+
+  <div class="sliderrs-header">
+
+    <div class="sliderrs-title-wrapper">
+<i class="fas fa-bolt"></i>
+      <h2 class="sliderrs-title">Ajouts Récents</h2>
+    </div>
+
+
+ <div class="sliderrs-controls">
+  <button class="sliderrs-button prev-slide">
+    <i class="bx bx-chevron-left"></i>
+  </button>
+  <button class="sliderrs-button next-slide">
+    <i class="bx bx-chevron-right"></i>
+  </button>
+</div>
+
+
+  </div>
+
+  <div class="sliderrs-wrapper">
+    <ul class="sliderrs-list">
+<li class="sliderrs-item">
+  <a href="page-one-piece.html">
+    <img src="assets/img/affiche/one piece.jpg" alt="img-1" />
+    <div class="slide-text">One Piece</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-naruto.html">
+    <img src="assets/img/affiche/Naruto AFFICHE.jpg" alt="img-2" />
+    <div class="slide-text">Naruto Shippuden</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-jujutsu-kaisen.html">
+    <img src="assets/img/affiche/affiche jujutsu kaisen.jpg" alt="img-3" />
+    <div class="slide-text">Jujutsu Kaisen</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-mha.html">
+    <img src="assets/img/affiche/affiche mha.jpg" alt="img-4" />
+    <div class="slide-text">My Hero Academia</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-solo-leveling.html">
+    <img src="assets/img/affiche/affiche solo leveling.jpg" alt="img-5" />
+    <div class="slide-text">Solo Leveling</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-tokyo-revenger.html">
+    <img src="assets/img/affiche/affiche tokyo revenger.webp" alt="img-6" />
+    <div class="slide-text">Tokyo Revenger</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-ao-ashi.html">
+    <img src="assets/img/affiche/ao ahsi affiche.webp" alt="img-7" />
+    <div class="slide-text">Ao Ashi</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-fable.html">
+    <img src="assets/img/affiche/fable.webp" alt="img-8" />
+    <div class="slide-text">Fable</div>
+  </a>
+</li>
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="banner">
+  <div class="banner-content">
+    <div class="banner-text-wrapper">
+      <h1 class="banner-title">Bienvenue sur notre site  Anim+</h1>
+      <p class="banner-text">
+        Rejoignez notre communauté active pour discuter, partager et rester informé.
+      </p>
+    </div>
+    <a href="" target="_blank" rel="noopener" class="discord-btn">
+      <i class="fab fa-discord"></i> Discord
+    </a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sliderrs-container">
+
+  <div class="sliderrs-header">
+
+<div class="sliderrs-title-wrapper">
+  <i class="fas fa-trophy"></i>
+  <h2 class="sliderrs-title">Top 10</h2>
+</div>
+
+
+<div class="sliderrs-controls">
+  <button class="sliderrs-button prev-slide">
+    <i class="bx bx-chevron-left"></i>
+  </button>
+  <button class="sliderrs-button next-slide">
+    <i class="bx bx-chevron-right"></i>
+  </button>
+</div>
+
+
+  </div>
+
+  <div class="sliderrs-wrapper">
+    <ul class="sliderrs-list">
+
+
+        <li class="sliderrs-item">
+  <span class="slide-rank">1</span>
+  <a href="page-one-piece.html">
+    <img src="assets/img/affiche/one piece.jpg" alt="One Piece" />
+    <div class="slide-text">One Piece</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">2</span>
+  <a href="page-naruto.html">
+    <img src="assets/img/affiche/Naruto AFFICHE.jpg" alt="Naruto Shippuden" />
+    <div class="slide-text">Naruto Shippuden</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">3</span>
+  <a href="page-jujutsu-kaisen.html">
+    <img src="assets/img/affiche/affiche jujutsu kaisen.jpg" alt="Jujutsu Kaisen" />
+    <div class="slide-text">Jujutsu Kaisen</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">4</span>
+  <a href="page-mha.html">
+    <img src="assets/img/affiche/affiche mha.jpg" alt="My Hero Academia" />
+    <div class="slide-text">My Hero Academia</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">5</span>
+  <a href="page-solo-leveling.html">
+    <img src="assets/img/affiche/affiche solo leveling.jpg" alt="Solo Leveling" />
+    <div class="slide-text">Solo Leveling</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">6</span>
+  <a href="page-tokyo-revenger.html">
+    <img src="assets/img/affiche/affiche tokyo revenger.webp" alt="Tokyo Revenger" />
+    <div class="slide-text">Tokyo Revenger</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">7</span>
+  <a href="page-ao-ashi.html">
+    <img src="assets/img/affiche/ao ahsi affiche.webp" alt="Ao Ashi" />
+    <div class="slide-text">Ao Ashi</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">8</span>
+  <a href="page-fable.html">
+    <img src="assets/img/affiche/fable.webp" alt="Fable" />
+    <div class="slide-text">Fable</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">9</span>
+  <a href="page-snk.html">
+    <img src="assets/img/affiche/snk affiche saison 1.jpg" alt="Shingeki no Kyojin" />
+    <div class="slide-text">Shingeki no Kyojin</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <span class="slide-rank">10</span>
+  <a href="page-blue-box.html">
+    <img src="assets/img/affiche/BLUE BOX AFFICHE.jpg" alt="Blue Box" />
+    <div class="slide-text">Blue Box</div>
+  </a>
+</li>
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sliderrs-container">
+
+  <div class="sliderrs-header">
+
+<div class="sliderrs-title-wrapper">
+  <img src="assets/logo Anim+ SANS FOND.png" alt="Recommandation" class="sliderrs-icon" />
+  <h2 class="sliderrs-titleE">Recommandations <span>+</span></h2>
+</div>
+
+
+
+ <div class="sliderrs-controls">
+  <button class="sliderrs-button prev-slide">
+    <i class="bx bx-chevron-left"></i>
+  </button>
+  <button class="sliderrs-button next-slide">
+    <i class="bx bx-chevron-right"></i>
+  </button>
+</div>
+
+
+  </div>
+
+  <div class="sliderrs-wrapper">
+    <ul class="sliderrs-list">
+<li class="sliderrs-item">
+  <a href="page-one-piece.html">
+    <img src="assets/img/affiche/one piece.jpg" alt="img-1" />
+    <div class="slide-text">One Piece</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-naruto.html">
+    <img src="assets/img/affiche/Naruto AFFICHE.jpg" alt="img-2" />
+    <div class="slide-text">Naruto Shippuden</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-jujutsu-kaisen.html">
+    <img src="assets/img/affiche/affiche jujutsu kaisen.jpg" alt="img-3" />
+    <div class="slide-text">Jujutsu Kaisen</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-mha.html">
+    <img src="assets/img/affiche/affiche mha.jpg" alt="img-4" />
+    <div class="slide-text">My Hero Academia</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-solo-leveling.html">
+    <img src="assets/img/affiche/affiche solo leveling.jpg" alt="img-5" />
+    <div class="slide-text">Solo Leveling</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-tokyo-revenger.html">
+    <img src="assets/img/affiche/affiche tokyo revenger.webp" alt="img-6" />
+    <div class="slide-text">Tokyo Revenger</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-ao-ashi.html">
+    <img src="assets/img/affiche/ao ahsi affiche.webp" alt="img-7" />
+    <div class="slide-text">Ao Ashi</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-fable.html">
+    <img src="assets/img/affiche/fable.webp" alt="img-8" />
+    <div class="slide-text">Fable</div>
+  </a>
+</li>
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="sliderrs-container">
+
+  <div class="sliderrs-header">
+
+<div class="sliderrs-title-wrapper">
+  <i class="fas fa-crown"></i>
+  <h2 class="sliderrs-title">Les Classiques</h2>
+</div>
+
+
+ <div class="sliderrs-controls">
+  <button class="sliderrs-button prev-slide">
+    <i class="bx bx-chevron-left"></i>
+  </button>
+  <button class="sliderrs-button next-slide">
+    <i class="bx bx-chevron-right"></i>
+  </button>
+</div>
+
+
+  </div>
+
+  <div class="sliderrs-wrapper">
+    <ul class="sliderrs-list">
+<li class="sliderrs-item">
+  <a href="page-one-piece.html">
+    <img src="assets/img/affiche/one piece.jpg" alt="img-1" />
+    <div class="slide-text">One Piece</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-naruto.html">
+    <img src="assets/img/affiche/Naruto AFFICHE.jpg" alt="img-2" />
+    <div class="slide-text">Naruto Shippuden</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-jujutsu-kaisen.html">
+    <img src="assets/img/affiche/affiche jujutsu kaisen.jpg" alt="img-3" />
+    <div class="slide-text">Jujutsu Kaisen</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-mha.html">
+    <img src="assets/img/affiche/affiche mha.jpg" alt="img-4" />
+    <div class="slide-text">My Hero Academia</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-solo-leveling.html">
+    <img src="assets/img/affiche/affiche solo leveling.jpg" alt="img-5" />
+    <div class="slide-text">Solo Leveling</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-tokyo-revenger.html">
+    <img src="assets/img/affiche/affiche tokyo revenger.webp" alt="img-6" />
+    <div class="slide-text">Tokyo Revenger</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-ao-ashi.html">
+    <img src="assets/img/affiche/ao ahsi affiche.webp" alt="img-7" />
+    <div class="slide-text">Ao Ashi</div>
+  </a>
+</li>
+
+<li class="sliderrs-item">
+  <a href="page-fable.html">
+    <img src="assets/img/affiche/fable.webp" alt="img-8" />
+    <div class="slide-text">Fable</div>
+  </a>
+</li>
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="custom-footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <h3 class="footer-title">
+        <i class='bx bx-info-circle'></i> À propos
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <h3 class="footer-title">
+        <i class='bx bx-file'></i> Informations
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+  </div>
+
+
+<div class="footer-bottom">
+  <div class="social-links">
+    <a href="" target="_blank" aria-label="Discord">
+      <i class="fa-brands fa-discord"></i>
+    </a>
+
+    <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+      <i class="fa-brands fa-twitter"></i>
+    </a>
+
+  </div>
+  <p class="creator-text">Anim+ créé par   AnimPluscorp © 2025</p>
+</div>
+
+
+</footer>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+     <script src="js/navbar.js"></script>
+    <script src="js/Planning.js"></script>
+    <script src="js/btnup.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>AOS.init();</script>
+</body>
+</html>

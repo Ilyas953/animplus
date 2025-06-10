@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anim+</title>
+   <link rel="stylesheet" href="css/profil.css">
+    <link rel="stylesheet" href="css/navbar & header.css">
+    <link rel="stylesheet" href="css/body.Css">
+    <link rel="stylesheet" href="css/Footer.css">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/connexion.js"></script>
+
+</head>
+<body>
+ 
+
+<button id="scrollToTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+  <i class='bx bx-chevron-up'></i>
+</button>
+
+
+
+
+
+
+
+
+      <div class="navbar-bottom">
+
+        <a class='nav-item ' href='accueil.html' id='home'>
+            <i class='bx bx-home-alt-2'></i>
+            
+        </a>
+        <a href="Catalogue.html" class="nav-item " id="bible">
+            <i class='bx bx-collection'></i>
+        </a>
+        <a href="Planning.html" class="nav-item " id="music">
+           <i class="fa-solid fa-calendar-days"></i>
+        </a>
+
+
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
+        </div>
+        <ul class="menu">
+          <li><a href="Accueil.html" >Accueil</a></li>
+            <li><a href="Catalogue.html" >Catalogue</a></li>
+            <li><a href="Planning.html" >Planning</a></li>
+        </ul>
+
+        
+      
+<div class="actions">
+    <a href="search.html">
+        <button class="btn-box-icon">
+            <i class='bx bx-search'></i>
+            Recherche
+        </button>
+    </a>
+
+
+
+</div>
+
+
+
+    </nav>
+
+</header>
+
+
+
+
+
+
+<div 
+  class="profile-container flex flex-col md:flex-row  mx-auto my-20 p-6 bg-gradient-to-b from-gray-900 via-gray-800 to-black border border-white/20 shadow-xl rounded-xl gap-6 text-gray-200"
+  data-aos="fade-up"
+  data-aos-duration="800"
+>
+
+  <!-- Sidebar -->
+  <div class="sidebar w-full md:w-1/4 flex flex-col gap-4" data-aos="fade-right" data-aos-delay="200">
+    <div class="tab-buttons flex flex-col gap-2">
+      <button class="tab-btn active bg-purple-600 text-white py-2 rounded hover:bg-purple-500 transition duration-300" data-tab="info-tab">Mon compte</button>
+      <button class="tab-btn bg-gray-700 text-gray-200 py-2 rounded hover:bg-gray-600 transition duration-300" data-tab="btn2-tab">Informations</button>
+    </div>
+    <button id="logout-btn" class="mt-4 bg-red-600 text-white py-2 rounded hover:bg-red-700 transition duration-300">Déconnexion</button>
+  </div>
+
+  <!-- Content -->
+  <div class="content w-full md:w-3/4" data-aos="fade-left" data-aos-delay="300">
+
+    <!-- Banner -->
+    <div id="banner-image" class="h-40 md:h-48 bg-cover bg-center bg-no-repeat rounded-lg mb-6 transition-all duration-700" style="background-image: url('assets/font catalogue animplus.png');">
+      <div class="flex items-center gap-4 bg-black/50 h-full p-4 rounded-lg">
+        <img id="profile-picture" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-lg object-cover hover:scale-105 transition-transform duration-300" src="" alt="Photo de profil" />
+        <div id="profile-username" class="text-white text-xl md:text-2xl font-semibold">Pseudo</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <!-- Info Tab -->
+      <div class="tab-content active" id="info-tab">
+        <form id="info-form" class="space-y-4">
+
+          <div class="transition-all duration-300 hover:scale-[1.01]">
+            <label for="input-pseudo" class="block font-medium text-gray-300">Pseudo :</label>
+            <input type="text" id="input-pseudo" name="pseudo" placeholder="Votre pseudo" required
+                   class="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all duration-300" />
+          </div>
+
+          <div class="transition-all duration-300 hover:scale-[1.01]">
+            <label for="input-anime" class="block font-medium text-gray-300">Anime préféré :</label>
+            <input type="text" id="input-anime" name="anime" placeholder="Ex: Naruto"
+                   class="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all duration-300" />
+          </div>
+
+          <div class="transition-all duration-300 hover:scale-[1.01]">
+            <label for="input-character" class="block font-medium text-gray-300">Personnage préféré :</label>
+            <input type="text" id="input-character" name="character" placeholder="Ex: Sasuke"
+                   class="w-full bg-gray-800 border border-gray-600 rounded px-3 py-2 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-600 transition-all duration-300" />
+          </div>
+
+          <div>
+            <label for="input-profile-image-file" class="block font-medium text-gray-300">Image de profil locale :</label>
+            <input type="file" id="input-profile-image-file" accept="image/*"
+                   class="block w-full text-sm text-gray-300 file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded file:border-0 file:cursor-pointer transition" />
+          </div>
+
+          <div>
+            <label for="input-bg-file" class="block font-medium text-gray-300">Image de fond :</label>
+            <input type="file" id="input-bg-file" accept="image/*"
+                   class="block w-full text-sm text-gray-300 file:bg-purple-600 file:text-white file:px-4 file:py-2 file:rounded file:border-0 file:cursor-pointer transition" />
+          </div>
+
+          <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded shadow transition duration-300 hover:scale-105">Enregistrer</button>
+        </form>
+      </div>
+
+      <!-- Bouton 2 Tab -->
+      <div class="tab-content hidden" id="btn2-tab">
+        <div class="space-y-6">
+          <!-- Section Favoris -->
+          <div class="bg-gray-800 rounded-lg p-4">
+            <h3 class="text-xl font-semibold mb-4">Mes Favoris</h3>
+            <div id="favorites-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <!-- Les favoris seront ajoutés ici dynamiquement -->
+            </div>
+          </div>
+
+          <!-- Section À regarder plus tard -->
+          <div class="bg-gray-800 rounded-lg p-4">
+            <h3 class="text-xl font-semibold mb-4">À regarder plus tard</h3>
+            <div id="watchlist" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <!-- La liste sera ajoutée ici dynamiquement -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="custom-footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <h3 class="footer-title">
+        <i class='bx bx-info-circle'></i> À propos
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <h3 class="footer-title">
+        <i class='bx bx-file'></i> Informations
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+  </div>
+
+
+<div class="footer-bottom">
+  <div class="social-links">
+    <a href="" target="_blank" aria-label="Discord">
+      <i class="fa-brands fa-discord"></i>
+    </a>
+
+    <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+      <i class="fa-brands fa-twitter"></i>
+    </a>
+
+  </div>
+  <p class="creator-text">Anim+ créé par   AnimPluscorp © 2025</p>
+</div>
+
+
+</footer>
+
+
+
+
+
+ <script src="js/navbar.js"></script>
+<script src="js/Planning.js"></script>
+<script src="js/btnup.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init();</script>
+<script>
+  // Fonction pour charger les favoris
+  async function loadFavorites() {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: favorites, error } = await supabase
+        .from('favorites')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const favoritesList = document.getElementById('favorites-list');
+      favoritesList.innerHTML = '';
+
+      favorites.forEach(anime => {
+        const animeCard = createAnimeCard(anime, 'favorites');
+        favoritesList.appendChild(animeCard);
+      });
+    } catch (error) {
+      console.error('Erreur lors du chargement des favoris:', error);
+    }
+  }
+
+  // Fonction pour charger la liste "à regarder plus tard"
+  async function loadWatchlist() {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: watchlist, error } = await supabase
+        .from('watchlist')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const watchlistContainer = document.getElementById('watchlist');
+      watchlistContainer.innerHTML = '';
+
+      watchlist.forEach(anime => {
+        const animeCard = createAnimeCard(anime, 'watchlist');
+        watchlistContainer.appendChild(animeCard);
+      });
+    } catch (error) {
+      console.error('Erreur lors du chargement de la liste:', error);
+    }
+  }
+
+  // Fonction pour créer une carte d'anime
+  function createAnimeCard(anime, type) {
+    const card = document.createElement('div');
+    card.className = 'bg-gray-700 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300';
+    
+    card.innerHTML = `
+      <img src="${anime.anime_image}" alt="${anime.anime_title}" class="w-full h-48 object-cover">
+      <div class="p-3">
+        <h4 class="font-medium text-white truncate">${anime.anime_title}</h4>
+        <button onclick="removeFromList('${type}', '${anime.id}')" class="mt-2 text-red-400 hover:text-red-300">
+          <i class="fas fa-trash"></i> Retirer
+        </button>
+      </div>
+    `;
+    
+    return card;
+  }
+
+  // Fonction pour retirer un anime d'une liste
+  async function removeFromList(type, animeId) {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const table = type === 'favorites' ? 'favorites' : 'watchlist';
+      const { error } = await supabase
+        .from(table)
+        .delete()
+        .eq('id', animeId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      // Recharger les listes
+      if (type === 'favorites') {
+        loadFavorites();
+      } else {
+        loadWatchlist();
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression:', error);
+    }
+  }
+
+  // Fonction pour ajouter un anime à la liste "à regarder plus tard"
+  async function addToWatchlist(animeId, animeTitle, animeImage) {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('watchlist')
+        .insert([
+          {
+            user_id: user.id,
+            anime_id: animeId,
+            anime_title: animeTitle,
+            anime_image: animeImage
+          }
+        ]);
+
+      if (error) throw error;
+      loadWatchlist();
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout à la liste:', error);
+    }
+  }
+
+  // Fonction pour ajouter un anime aux favoris
+  async function addToFavorites(animeId, animeTitle, animeImage) {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('favorites')
+        .insert([
+          {
+            user_id: user.id,
+            anime_id: animeId,
+            anime_title: animeTitle,
+            anime_image: animeImage
+          }
+        ]);
+
+      if (error) throw error;
+      loadFavorites();
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout aux favoris:', error);
+    }
+  }
+
+  // Charger les données au chargement de la page
+  document.addEventListener('DOMContentLoaded', () => {
+    loadFavorites();
+    loadWatchlist();
+  });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Vérifier si l'utilisateur est connecté
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        // Gérer la déconnexion
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    await signOut();
+                } catch (error) {
+                    console.error('Erreur lors de la déconnexion:', error);
+                }
+            });
+        }
+
+        // Charger les informations du profil
+        const username = localStorage.getItem('username');
+        const profileImage = localStorage.getItem('profileImage');
+        const favoriteAnime = localStorage.getItem('favoriteAnime');
+        const character = localStorage.getItem('character');
+        const backgroundImage = localStorage.getItem('backgroundImage');
+
+        if (username) {
+            document.getElementById('profile-username').textContent = username;
+            document.getElementById('input-pseudo').value = username;
+        }
+        if (profileImage) {
+            document.getElementById('profile-picture').src = profileImage;
+        }
+        if (favoriteAnime) {
+            document.getElementById('input-anime').value = favoriteAnime;
+        }
+        if (character) {
+            document.getElementById('input-character').value = character;
+        }
+        if (backgroundImage) {
+            document.getElementById('banner-image').style.backgroundImage = `url('${backgroundImage}')`;
+        }
+
+        // Si les informations ne sont pas dans le localStorage, les récupérer depuis la base de données
+        if (!username || !profileImage || !favoriteAnime || !character || !backgroundImage) {
+            try {
+                const { data: user, error } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('id', userId)
+                    .single();
+
+                if (error) throw error;
+
+                if (user) {
+                    // Mettre à jour l'interface
+                    if (user.username) {
+                        document.getElementById('profile-username').textContent = user.username;
+                        document.getElementById('input-pseudo').value = user.username;
+                        localStorage.setItem('username', user.username);
+                    }
+                    if (user.profile_image) {
+                        document.getElementById('profile-picture').src = user.profile_image;
+                        localStorage.setItem('profileImage', user.profile_image);
+                    }
+                    if (user.favorite_anime) {
+                        document.getElementById('input-anime').value = user.favorite_anime;
+                        localStorage.setItem('favoriteAnime', user.favorite_anime);
+                    }
+                    if (user.character) {
+                        document.getElementById('input-character').value = user.character;
+                        localStorage.setItem('character', user.character);
+                    }
+                    if (user.background_image) {
+                        document.getElementById('banner-image').style.backgroundImage = `url('${user.background_image}')`;
+                        localStorage.setItem('backgroundImage', user.background_image);
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des informations:', error);
+            }
+        }
+
+        // Gérer l'upload de l'image de profil
+        const profileImageInput = document.getElementById('input-profile-image-file');
+        profileImageInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${userId}-profile.${fileExt}`;
+                    
+                    // Upload vers Supabase Storage
+                    const { data, error } = await supabase.storage
+                        .from('profile-images')
+                        .upload(fileName, file, {
+                            upsert: true,
+                            cacheControl: '3600'
+                        });
+
+                    if (error) throw error;
+
+                    // Obtenir l'URL publique
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('profile-images')
+                        .getPublicUrl(fileName);
+
+                    // Mettre à jour l'image dans l'interface
+                    document.getElementById('profile-picture').src = publicUrl;
+                    
+                    // Mettre à jour dans la base de données
+                    const { error: updateError } = await supabase
+                        .from('users')
+                        .update({ profile_image: publicUrl })
+                        .eq('id', userId);
+
+                    if (updateError) throw updateError;
+
+                    // Mettre à jour le localStorage
+                    localStorage.setItem('profileImage', publicUrl);
+                } catch (error) {
+                    console.error('Erreur lors de l\'upload de l\'image:', error);
+                    alert('Erreur lors de l\'upload de l\'image');
+                }
+            }
+        });
+
+        // Gérer l'upload de l'image de fond
+        const bgImageInput = document.getElementById('input-bg-file');
+        bgImageInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                try {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${userId}-background.${fileExt}`;
+                    
+                    // Upload vers Supabase Storage
+                    const { data, error } = await supabase.storage
+                        .from('background-images')
+                        .upload(fileName, file, {
+                            upsert: true,
+                            cacheControl: '3600'
+                        });
+
+                    if (error) throw error;
+
+                    // Obtenir l'URL publique
+                    const { data: { publicUrl } } = supabase.storage
+                        .from('background-images')
+                        .getPublicUrl(fileName);
+
+                    // Mettre à jour l'image dans l'interface
+                    document.getElementById('banner-image').style.backgroundImage = `url('${publicUrl}')`;
+                    
+                    // Mettre à jour dans la base de données
+                    const { error: updateError } = await supabase
+                        .from('users')
+                        .update({ background_image: publicUrl })
+                        .eq('id', userId);
+
+                    if (updateError) throw updateError;
+
+                    // Mettre à jour le localStorage
+                    localStorage.setItem('backgroundImage', publicUrl);
+                } catch (error) {
+                    console.error('Erreur lors de l\'upload de l\'image de fond:', error);
+                    alert('Erreur lors de l\'upload de l\'image de fond');
+                }
+            }
+        });
+
+        // Gérer la soumission du formulaire
+        const infoForm = document.getElementById('info-form');
+        infoForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('input-pseudo').value;
+            const favoriteAnime = document.getElementById('input-anime').value;
+            const character = document.getElementById('input-character').value;
+
+            try {
+                const { error } = await supabase
+                    .from('users')
+                    .update({
+                        username: username,
+                        favorite_anime: favoriteAnime,
+                        character: character
+                    })
+                    .eq('id', userId);
+
+                if (error) throw error;
+
+                // Mettre à jour le localStorage
+                localStorage.setItem('username', username);
+                localStorage.setItem('favoriteAnime', favoriteAnime);
+                localStorage.setItem('character', character);
+
+                // Mettre à jour l'interface
+                document.getElementById('profile-username').textContent = username;
+
+                alert('Profil mis à jour avec succès !');
+            } catch (error) {
+                console.error('Erreur lors de la mise à jour du profil:', error);
+                alert('Erreur lors de la mise à jour du profil');
+            }
+        });
+    });
+</script>
+</body>
+</html>
