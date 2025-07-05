@@ -8,36 +8,13 @@ class TableAdapter {
         this.detectedColumns = {};
     }
 
-    // Méthode pour interroger Supabase via l'API
-    async supabaseQuery(table, action, data = {}, filter = {}) {
-        try {
-            const response = await fetch('/api/supabase', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    table: table,
-                    action: action,
-                    data: data,
-                    filter: filter
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            return await response.json();
-        } catch (error) {
-            return { error: error.message };
-        }
-    }
-
     async detectTableStructure(tableName) {
         try {
             // Essayer de récupérer une ligne pour voir la structure
-            const { data, error } = await this.supabaseQuery(tableName, 'select', {}, {});
+            const { data, error } = await supabase
+                .from(tableName)
+                .select('*')
+                .limit(1);
             
             if (error) {
                 return false;
@@ -100,12 +77,11 @@ class TableAdapter {
             
             const userIdColumn = this.getUserIdColumn(tableName);
 
-            const { data, error } = await this.supabaseQuery(
-                tableName, 
-                'select', 
-                {}, 
-                { [userIdColumn]: userId }
-            );
+            const { data, error } = await supabase
+                .from(tableName)
+                .select('*')
+                .eq(userIdColumn, userId)
+                .order(this.getTimestampColumn(tableName), { ascending: false });
 
             if (error) {
                 throw new Error(`Erreur lors du chargement des favoris: ${error.message}`);
@@ -124,12 +100,11 @@ class TableAdapter {
             
             const userIdColumn = this.getUserIdColumn(tableName);
 
-            const { data, error } = await this.supabaseQuery(
-                tableName, 
-                'select', 
-                {}, 
-                { [userIdColumn]: userId }
-            );
+            const { data, error } = await supabase
+                .from(tableName)
+                .select('*')
+                .eq(userIdColumn, userId)
+                .order(this.getTimestampColumn(tableName), { ascending: false });
 
             if (error) {
                 throw new Error(`Erreur lors du chargement de la liste: ${error.message}`);
@@ -161,12 +136,10 @@ class TableAdapter {
                 insertData[timestampColumn] = new Date().toISOString();
             }
 
-            const { data, error } = await this.supabaseQuery(
-                tableName,
-                'insert',
-                insertData,
-                {}
-            );
+            const { data, error } = await supabase
+                .from(tableName)
+                .insert([insertData])
+                .select();
 
             if (error) {
                 throw new Error(`Erreur lors de l'ajout aux favoris: ${error.message}`);
@@ -198,12 +171,10 @@ class TableAdapter {
                 insertData[timestampColumn] = new Date().toISOString();
             }
 
-            const { data, error } = await this.supabaseQuery(
-                tableName,
-                'insert',
-                insertData,
-                {}
-            );
+            const { data, error } = await supabase
+                .from(tableName)
+                .insert([insertData])
+                .select();
 
             if (error) {
                 throw new Error(`Erreur lors de l'ajout à la watchlist: ${error.message}`);
@@ -222,12 +193,11 @@ class TableAdapter {
             
             const userIdColumn = this.getUserIdColumn(tableName);
 
-            const { error } = await this.supabaseQuery(
-                tableName,
-                'delete',
-                {},
-                { [userIdColumn]: userId, anime_id: animeId }
-            );
+            const { error } = await supabase
+                .from(tableName)
+                .delete()
+                .eq(userIdColumn, userId)
+                .eq('anime_id', animeId);
 
             if (error) {
                 throw new Error(`Erreur lors de la suppression des favoris: ${error.message}`);
@@ -246,12 +216,11 @@ class TableAdapter {
             
             const userIdColumn = this.getUserIdColumn(tableName);
 
-            const { error } = await this.supabaseQuery(
-                tableName,
-                'delete',
-                {},
-                { [userIdColumn]: userId, anime_id: animeId }
-            );
+            const { error } = await supabase
+                .from(tableName)
+                .delete()
+                .eq(userIdColumn, userId)
+                .eq('anime_id', animeId);
 
             if (error) {
                 throw new Error(`Erreur lors de la suppression de la watchlist: ${error.message}`);
@@ -270,12 +239,12 @@ class TableAdapter {
             
             const userIdColumn = this.getUserIdColumn(tableName);
 
-            const { data, error } = await this.supabaseQuery(
-                tableName,
-                'select',
-                {},
-                { [userIdColumn]: userId, anime_id: animeId }
-            );
+            const { data, error } = await supabase
+                .from(tableName)
+                .select('id')
+                .eq(userIdColumn, userId)
+                .eq('anime_id', animeId)
+                .limit(1);
 
             if (error) {
                 throw new Error(`Erreur lors de la vérification des favoris: ${error.message}`);
@@ -294,12 +263,12 @@ class TableAdapter {
             
             const userIdColumn = this.getUserIdColumn(tableName);
 
-            const { data, error } = await this.supabaseQuery(
-                tableName,
-                'select',
-                {},
-                { [userIdColumn]: userId, anime_id: animeId }
-            );
+            const { data, error } = await supabase
+                .from(tableName)
+                .select('id')
+                .eq(userIdColumn, userId)
+                .eq('anime_id', animeId)
+                .limit(1);
 
             if (error) {
                 throw new Error(`Erreur lors de la vérification de la watchlist: ${error.message}`);
