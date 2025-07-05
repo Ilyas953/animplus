@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Boutons - Anim+</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .hero-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .hero-btn {
+            padding: 12px 24px;
+            background-color: #4e5ad4;
+            color: #ffffff;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px; 
+            font-size: 1rem;
+        }
+        .hero-btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 6px 25px #4e5ad4;
+        }
+        .hero-btn i {
+            font-size: 22px;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #333;
+        }
+    </style>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/connexion.js"></script>
+    <script src="js/table-adapter.js"></script>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test des Boutons Favoris et Watchlist</h1>
+        
+        <div class="status" id="status">
+            <strong>Statut :</strong> <span id="user-status">Vérification...</span>
+        </div>
+        
+        <div class="hero-buttons">
+            <button id="add-to-favorites" class="hero-btn">
+                <i class='bx bx-heart'></i>
+                <span>Favoris</span>
+            </button>
+            <button id="add-to-watchlist" class="hero-btn">
+                <i class='bx bx-plus'></i>
+                <span>À regarder</span>
+            </button>
+        </div>
+        
+        <div class="status" id="result">
+            <strong>Résultat :</strong> <span id="result-text">En attente...</span>
+        </div>
+    </div>
+
+    <script>
+        // Données de test
+        const animeData = {
+            id: "test-anime-123",
+            title: "Anime de Test",
+            image: "test-image.jpg",
+            genre: "Test",
+            season: "Test",
+            episodes: 1,
+            synopsis: "Anime de test pour vérifier les boutons"
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const addToFavoritesBtn = document.getElementById('add-to-favorites');
+            const addToWatchlistBtn = document.getElementById('add-to-watchlist');
+            const userStatus = document.getElementById('user-status');
+            const resultText = document.getElementById('result-text');
+            
+            // Vérifier si l'utilisateur est connecté
+            const userId = localStorage.getItem('userId');
+            
+            if (!userId) {
+                userStatus.textContent = 'Non connecté';
+                userStatus.style.color = '#ff6b6b';
+                
+                addToFavoritesBtn.onclick = () => {
+                    resultText.textContent = 'Vous devez être connecté pour ajouter aux favoris';
+                    resultText.style.color = '#ff6b6b';
+                };
+                addToWatchlistBtn.onclick = () => {
+                    resultText.textContent = 'Vous devez être connecté pour ajouter à votre liste';
+                    resultText.style.color = '#ff6b6b';
+                };
+                return;
+            }
+
+            userStatus.textContent = `Connecté : ${localStorage.getItem('username')} (ID: ${userId})`;
+            userStatus.style.color = '#4ecdc4';
+
+            // Vérifier si l'anime est déjà dans les listes
+            try {
+                const isInFavorites = await tableAdapter.isInFavorites(userId, animeData.id);
+                const isInWatchlist = await tableAdapter.isInWatchlist(userId, animeData.id);
+
+                updateButtonAppearance(addToFavoritesBtn, isInFavorites, 'favorites');
+                updateButtonAppearance(addToWatchlistBtn, isInWatchlist, 'watchlist');
+
+                resultText.textContent = `État initial - Favoris: ${isInFavorites ? 'Oui' : 'Non'}, Watchlist: ${isInWatchlist ? 'Oui' : 'Non'}`;
+                resultText.style.color = '#4ecdc4';
+            } catch (error) {
+                resultText.textContent = `Erreur lors de la vérification: ${error.message}`;
+                resultText.style.color = '#ff6b6b';
+            }
+
+            // Gestion du bouton favoris
+            addToFavoritesBtn.onclick = async () => {
+                try {
+                    const isInFavorites = await tableAdapter.isInFavorites(userId, animeData.id);
+                    
+                    if (isInFavorites) {
+                        await tableAdapter.removeFromFavorites(userId, animeData.id);
+                        updateButtonAppearance(addToFavoritesBtn, false, 'favorites');
+                        resultText.textContent = 'Anime retiré des favoris';
+                        resultText.style.color = '#4ecdc4';
+                    } else {
+                        await tableAdapter.addToFavorites(userId, animeData);
+                        updateButtonAppearance(addToFavoritesBtn, true, 'favorites');
+                        resultText.textContent = 'Anime ajouté aux favoris !';
+                        resultText.style.color = '#4ecdc4';
+                    }
+                } catch (error) {
+                    resultText.textContent = `Erreur: ${error.message}`;
+                    resultText.style.color = '#ff6b6b';
+                }
+            };
+
+            // Gestion du bouton watchlist
+            addToWatchlistBtn.onclick = async () => {
+                try {
+                    const isInWatchlist = await tableAdapter.isInWatchlist(userId, animeData.id);
+                    
+                    if (isInWatchlist) {
+                        await tableAdapter.removeFromWatchlist(userId, animeData.id);
+                        updateButtonAppearance(addToWatchlistBtn, false, 'watchlist');
+                        resultText.textContent = 'Anime retiré de votre liste';
+                        resultText.style.color = '#4ecdc4';
+                    } else {
+                        await tableAdapter.addToWatchlist(userId, animeData);
+                        updateButtonAppearance(addToWatchlistBtn, true, 'watchlist');
+                        resultText.textContent = 'Anime ajouté à votre liste !';
+                        resultText.style.color = '#4ecdc4';
+                    }
+                } catch (error) {
+                    resultText.textContent = `Erreur: ${error.message}`;
+                    resultText.style.color = '#ff6b6b';
+                }
+            };
+        });
+
+        // Fonction pour mettre à jour l'apparence des boutons
+        function updateButtonAppearance(button, isAdded, type) {
+            const icon = button.querySelector('i');
+            const text = button.querySelector('span');
+            
+            if (isAdded) {
+                if (type === 'favorites') {
+                    icon.className = 'bx bxs-heart';
+                    text.textContent = 'Favori';
+                    button.style.backgroundColor = '#ff6b6b';
+                } else if (type === 'watchlist') {
+                    icon.className = 'bx bxs-check';
+                    text.textContent = 'Ajouté';
+                    button.style.backgroundColor = '#4ecdc4';
+                }
+            } else {
+                if (type === 'favorites') {
+                    icon.className = 'bx bx-heart';
+                    text.textContent = 'Favoris';
+                    button.style.backgroundColor = '#4e5ad4';
+                } else if (type === 'watchlist') {
+                    icon.className = 'bx bx-plus';
+                    text.textContent = 'À regarder';
+                    button.style.backgroundColor = '#4e5ad4';
+                }
+            }
+        }
+    </script>
+</body>
+</html> 

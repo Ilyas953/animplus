@@ -41,7 +41,6 @@ app.use((req, res) => {
 
 // Gestion des erreurs
 app.use((err, req, res, next) => {
-  console.error(err.stack);
   res.status(500).send('Une erreur est survenue!');
 });
 
@@ -50,7 +49,5 @@ const PORT = process.env.PORT || 3000;
 
 // Démarrer le serveur
 app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
-  console.log(`Pour accéder à l'application, ouvrez votre navigateur et allez à:`);
-  console.log(`http://localhost:${PORT}`);
+    // Serveur démarré silencieusement
 }); 

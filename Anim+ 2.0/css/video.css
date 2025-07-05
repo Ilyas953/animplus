@@ -15,7 +15,8 @@
 }
 
 
-.video-popup iframe {
+.video-popup iframe,
+.blob-video {
   max-width: 90vw;
   max-height: 80vh;
   width: 100%;
@@ -45,9 +46,9 @@
 
 .video-controls {
   position: absolute;
-  top: 10%;
-  left:5%;
-  right: 13%;
+  top: 11%;
+  left:135PX;
+  right: 6%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -85,6 +86,8 @@
   box-shadow: 0 6px 25px #4e59d427;
 
 }
+
+
 
 
 .btn-prev {
@@ -274,3 +277,89 @@ margin-top: 12PX;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.925);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.popup-content {
+  position: relative;
+  background: #161616;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+
+.popup-content h2 {
+  margin-bottom: 20px;
+}
+
+.popup-content button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+.popup-content button {
+  margin: 10px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #4e5ad4;
+  color: #fff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.popup-content button:hover {
+  background-color: #4e5ad4;
+  transform: scale(1.05);
+}
+
+.popup-content button:active {
+  transform: scale(0.98);
+  background-color: #444;
+}
+
+
+
+
+body.noscroll {
+  overflow: hidden;
+}

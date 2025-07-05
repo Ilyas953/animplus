@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/body.Css">
     <link rel="stylesheet" href="css/Footer.css">
 
- <link rel="stylesheet" href="css/connexion.css">
+     <link rel="stylesheet" href="css/connexion.css">
 
 
 
@@ -19,7 +19,6 @@
 
     <!-- Supabase -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script src="js/connexion.js"></script>
 
 </head>
 <body>
@@ -99,10 +98,19 @@
 
 
 
-<div id="login-popup" class="popup hidden">
-  <div class="popup-content">
 
+
+
+
+
+<div id="login-popup" class="popup hidden">
+<div class="popup-content">
+      <button id="close-popup" aria-label="Fermer" class="close-btnn">&times;</button>
+  <div class="popup-header">
+    
     <h2 id="popup-title" class="popup-title">Connecte-toi à ton compte</h2>
+
+  </div>
 
     <select id="mode-select" onchange="toggleMode()" style="display:none;">
       <option value="login">Connexion</option>
@@ -147,26 +155,50 @@
         <option value="mha">My Hero Academia</option>
         <option value="naruto">Naruto</option>
         <option value="dragonball">Dragon Ball</option>
-
-
-
       </select>
-      <select id="character-select" disabled>
+      
+      <h3>Choisissez 4 personnages de votre anime préféré</h3>
+      <select id="character-select-1" disabled>
         <option value="">Choisissez un personnage</option>
       </select>
+      <select id="character-select-2" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-3" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-4" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      
+      <div id="character-error" style="display: none; color: red; margin-top: 10px;">
+        Veuillez sélectionner exactement 4 personnages différents
+      </div>
+      
       <button onclick="submitRegister()" class="btn-submit">Valider</button>
     </div>
 
   </div>
 </div>
 
-
 <div id="notification" class="notification hidden"></div> 
 
 
 
+<script>
+const popup = document.getElementById('login-popup');
+const closeBtnn = document.getElementById('close-popup');
 
+popup.addEventListener('click', (event) => {
+  if (event.target === popup) {
+    closePopup();
+  }
+});
 
+closeBtnn.addEventListener('click', () => {
+  closePopup();
+});
+</script>
 
 
 
@@ -948,10 +980,11 @@ planningBtn.addEventListener('click', () => {
 
 
 
-
+    <script src="js/sliderhome.js"></script>
     <script src="js/navbar.js"></script>
     <script src="js/Planning.js"></script>
     <script src="js/btnup.js"></script>
+    <script src="js/connexion.js"></script>
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>AOS.init();</script>
 </body>

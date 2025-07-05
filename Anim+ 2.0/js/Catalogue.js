@@ -26,8 +26,12 @@ function filterGrid() {
     }
   });
 
+  // Afficher les résultats
+  displayResults(matchedItems);
+  
+  // Mettre à jour le compteur
+  updateResultCount(matchedItems.length);
 
-  console.log('Recherche:', filter, '| Items affichés:', matchedItems.length);
   return matchedItems;
 }
 
@@ -144,6 +148,12 @@ document.addEventListener('DOMContentLoaded', () => {
         item.style.display = 'none';
       }
     });
+
+    // Afficher les résultats
+    displayResults(matchedItems);
+    
+    // Mettre à jour le compteur
+    updateResultCount(matchedItems.length);
   }
 
   filterOptions.forEach(opt => opt.addEventListener('change', filterGrid));

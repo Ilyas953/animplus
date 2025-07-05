@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Système de Points A+ - Anim+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- En-tête -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-white mb-4">
+                    <i class="fas fa-star text-yellow-400 mr-3"></i>
+                    Test Système de Points A+
+                </h1>
+                <p class="text-gray-300">Page de test pour vérifier le fonctionnement du système de points</p>
+            </div>
+
+            <!-- Section de test -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-6">
+                <h2 class="text-2xl font-bold text-white mb-4">Configuration de test</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Informations utilisateur -->
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-white mb-3">Utilisateur connecté</h3>
+                        <div id="user-info" class="text-gray-300">
+                            <p><strong>ID:</strong> <span id="user-id">Non connecté</span></p>
+                            <p><strong>Pseudo:</strong> <span id="user-pseudo">-</span></p>
+                        </div>
+                    </div>
+
+                    <!-- État de la base de données -->
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-white mb-3">État de la base</h3>
+                        <div id="db-status" class="text-gray-300">
+                            <p><strong>Table points:</strong> <span id="points-table-status">Vérification...</span></p>
+                            <p><strong>Connexion:</strong> <span id="connection-status">Test...</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boutons de test -->
+                <div class="mt-6 space-y-3">
+                    <button id="test-connection" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300">
+                        <i class="fas fa-database mr-2"></i>Tester la connexion
+                    </button>
+                    
+                    <button id="test-points" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition duration-300">
+                        <i class="fas fa-coins mr-2"></i>Tester les points
+                    </button>
+                    
+                    <button id="reset-points" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition duration-300">
+                        <i class="fas fa-undo mr-2"></i>Réinitialiser les points
+                    </button>
+                </div>
+            </div>
+
+            <!-- Section Points A+ (copie de profile.html) -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-purple-400">
+                        <i class="fas fa-star mr-2"></i>Système de Points A+
+                    </h3>
+                    <div class="text-right">
+                        <div class="text-3xl font-bold text-yellow-400" id="total-points">0</div>
+                        <div class="text-sm text-gray-400">Points totaux</div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <!-- Points d'aujourd'hui -->
+                    <div class="bg-gray-700 rounded-lg p-4 border border-gray-600">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-lg font-semibold text-white">Points d'aujourd'hui</h4>
+                                <p class="text-sm text-gray-400">Limite quotidienne: 20 points</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-green-400" id="today-points">0</div>
+                                <div class="text-sm text-gray-400">/ 20</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-full bg-gray-600 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full transition-all duration-300" id="progress-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prochain reset -->
+                    <div class="bg-gray-700 rounded-lg p-4 border border-gray-600">
+                        <h4 class="text-lg font-semibold text-white mb-2">Prochain reset</h4>
+                        <div class="text-2xl font-bold text-blue-400" id="next-reset">Demain</div>
+                        <p class="text-sm text-gray-400">Les points quotidiens se réinitialisent</p>
+                    </div>
+                </div>
+
+                <!-- Section Publicités -->
+                <div class="bg-gray-700 rounded-lg p-6 border border-gray-600">
+                    <h4 class="text-xl font-semibold text-white mb-4">
+                        <i class="fas fa-ad mr-2"></i>Gagner des Points
+                    </h4>
+                    <p class="text-gray-300 mb-4">
+                        Regardez des publicités pour gagner des points A+ ! Chaque publicité vous rapporte 2 points.
+                        Vous pouvez gagner jusqu'à 20 points par jour.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <!-- Bouton pour regarder une pub -->
+                        <button id="watch-ad-btn" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fas fa-play mr-2"></i>Regarder une Publicité (+2 points)
+                        </button>
+
+                        <!-- Zone d'affichage de la pub -->
+                        <div id="ad-container" class="hidden bg-black rounded-lg p-4 border border-gray-600">
+                            <div class="text-center">
+                                <div id="ad-content" class="bg-gray-900 rounded-lg p-8 mb-4">
+                                    <div class="text-4xl mb-4">📺</div>
+                                    <h5 class="text-xl font-bold text-white mb-2">Publicité Simulée</h5>
+                                    <p class="text-gray-400 mb-4">Cette publicité se termine dans <span id="ad-countdown" class="text-yellow-400 font-bold">5</span> secondes</p>
+                                    <div class="w-full bg-gray-700 rounded-full h-2">
+                                        <div class="bg-yellow-500 h-2 rounded-full transition-all duration-100" id="ad-progress" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <button id="skip-ad-btn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition duration-300">
+                                    Passer la publicité
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Message de statut -->
+                        <div id="ad-status" class="text-center text-sm text-gray-400"></div>
+                    </div>
+                </div>
+
+                <!-- Logs de debug -->
+                <div class="mt-6 bg-gray-900 rounded-lg p-4 border border-gray-600">
+                    <h4 class="text-lg font-semibold text-white mb-3">
+                        <i class="fas fa-bug mr-2"></i>Logs de Debug
+                    </h4>
+                    <div id="debug-logs" class="text-gray-300 text-sm max-h-40 overflow-y-auto">
+                        <p>Logs de debug apparaîtront ici...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/table-adapter.js"></script>
+    <script src="js/points-system.js"></script>
+    <script>
+        // Fonctions de test
+        function log(message) {
+            const logsDiv = document.getElementById('debug-logs');
+            const timestamp = new Date().toLocaleTimeString();
+            logsDiv.innerHTML += `<p>[${timestamp}] ${message}</p>`;
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        function updateUserInfo() {
+            const userId = localStorage.getItem('userId');
+            const userPseudo = localStorage.getItem('userPseudo');
+            
+            document.getElementById('user-id').textContent = userId || 'Non connecté';
+            document.getElementById('user-pseudo').textContent = userPseudo || '-';
+        }
+
+        async function testConnection() {
+            log('Test de connexion à Supabase...');
+            
+            try {
+                const response = await fetch('/api/supabase', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        table: 'user_points',
+                        action: 'select',
+                        data: {},
+                        filter: {}
+                    })
+                });
+
+                if (response.ok) {
+                    document.getElementById('connection-status').textContent = '✅ Connecté';
+                    document.getElementById('points-table-status').textContent = '✅ Table accessible';
+                    log('✅ Connexion réussie');
+                } else {
+                    document.getElementById('connection-status').textContent = '❌ Erreur';
+                    log('❌ Erreur de connexion: ' + response.status);
+                }
+            } catch (error) {
+                document.getElementById('connection-status').textContent = '❌ Erreur';
+                log('❌ Erreur: ' + error.message);
+            }
+        }
+
+        async function testPoints() {
+            log('Test du système de points...');
+            
+            if (window.pointsSystem) {
+                await window.pointsSystem.loadUserPoints();
+                log('✅ Système de points initialisé');
+            } else {
+                log('❌ Système de points non disponible');
+            }
+        }
+
+        async function resetPoints() {
+            log('Réinitialisation des points...');
+            
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                log('❌ Aucun utilisateur connecté');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/supabase', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        table: 'user_points',
+                        action: 'update',
+                        data: {
+                            points_earned_today: 0,
+                            total_points: 0,
+                            last_reset_date: new Date().toISOString().split('T')[0]
+                        },
+                        filter: { user_id: userId }
+                    })
+                });
+
+                if (response.ok) {
+                    log('✅ Points réinitialisés');
+                    if (window.pointsSystem) {
+                        await window.pointsSystem.loadUserPoints();
+                    }
+                } else {
+                    log('❌ Erreur lors de la réinitialisation');
+                }
+            } catch (error) {
+                log('❌ Erreur: ' + error.message);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('test-connection').addEventListener('click', testConnection);
+        document.getElementById('test-points').addEventListener('click', testPoints);
+        document.getElementById('reset-points').addEventListener('click', resetPoints);
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserInfo();
+            log('Page de test chargée');
+            
+            // Vérifier si l'utilisateur est connecté
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                log('⚠️ Aucun utilisateur connecté - Connectez-vous d\'abord');
+            } else {
+                log('✅ Utilisateur connecté: ' + userId);
+            }
+        });
+    </script>
+</body>
+</html> 

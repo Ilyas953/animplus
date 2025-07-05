@@ -71,6 +71,114 @@
 
 
 
+
+
+<div id="login-popup" class="popup hidden">
+<div class="popup-content">
+      <button id="close-popup" aria-label="Fermer" class="close-btnn">&times;</button>
+  <div class="popup-header">
+    
+    <h2 id="popup-title" class="popup-title">Connecte-toi à ton compte</h2>
+
+  </div>
+
+    <select id="mode-select" onchange="toggleMode()" style="display:none;">
+      <option value="login">Connexion</option>
+      <option value="register">Tu n'as toujours pas de compte ?</option>
+    </select>
+
+    <div id="login-form">
+      <input type="text" id="login-username" placeholder="Pseudo" autocomplete="username">
+
+      <h3 class="input-subtitle">Entrez votre code secret</h3>
+
+      <input type="password" id="login-password" placeholder="Code secret" autocomplete="current-password">
+
+      <button onclick="submitLogin()" class="btn-submit">Valider</button>
+
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-register" class="link-register">Tu n'as toujours pas de compte ?</a>
+      </div>
+    </div>
+
+    <div id="register-step1" class="hidden">
+      <input type="text" id="register-username" placeholder="Pseudo" autocomplete="username">
+
+      <button onclick="goToStep2()" class="btn-submit">Suivant</button>
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-login" class="link-login">Retour Connexion</a>
+      </div>
+    </div>
+
+    <div id="register-step2" class="hidden">
+      <h3>Choisissez votre image de profil</h3>
+      <div id="profile-pictures" class="profile-pictures-container"></div>
+      <button onclick="goToStep3()" disabled id="profile-next-btn" class="btn-submit">Suivant</button>
+    </div>
+
+    <div id="register-step3" class="hidden">
+      <select id="anime-select" onchange="updateCharacterOptions()">
+        <option value="">Choisissez un anime</option>
+        <option value="snk">Shingeki no Kyojin</option>
+        <option value="onepiece">One Piece</option>
+        <option value="bleach">Bleach</option>
+        <option value="mha">My Hero Academia</option>
+        <option value="naruto">Naruto</option>
+        <option value="dragonball">Dragon Ball</option>
+      </select>
+      
+      <h3>Choisissez 4 personnages de votre anime préféré</h3>
+      <select id="character-select-1" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-2" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-3" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-4" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      
+      <div id="character-error" style="display: none; color: red; margin-top: 10px;">
+        Veuillez sélectionner exactement 4 personnages différents
+      </div>
+      
+      <button onclick="submitRegister()" class="btn-submit">Valider</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="notification" class="notification hidden"></div> 
+
+
+
+<script>
+const popup = document.getElementById('login-popup');
+const closeBtnn = document.getElementById('close-popup');
+
+popup.addEventListener('click', (event) => {
+  if (event.target === popup) {
+    closePopup();
+  }
+});
+
+closeBtnn.addEventListener('click', () => {
+  closePopup();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
       <div class="navbar-bottom">
 
         <a class='nav-item ' href='accueil.html' id='home'>
@@ -137,6 +245,8 @@
 
 
 
+
+
 <div class="hero-image">
   <img src="assets/font catalogue animplus.png" alt="Image hero" />
 
@@ -189,7 +299,7 @@
         <h4>My Hero Academia</h4>
         <p>Nouveaux épisodes chaque lundi à 18h.</p>
         <div class="separator"></div>
-        <small>Le retour d'Izuku 🔥</small>
+        <small>Le retour d’Izuku 🔥</small>
       </div>
       <div class="anime-buttons">
    <button class="btn">VOSTFR</button>
@@ -222,7 +332,7 @@
         <h4>Solo Leveling</h4>
         <p>Nouveaux épisodes chaque lundi à 18h.</p>
         <div class="separator"></div>
-        <small>Le retour d'Izuku 🔥</small>
+        <small>Le retour d’Izuku 🔥</small>
       </div>
       <div class="anime-buttons">
    <button class="btn">VOSTFR</button>
@@ -361,7 +471,7 @@
 
 
 
-<div class="day-card" id="Mardi">
+<div class="day-card" id="Mardi" data-day="Mardi">
   <h3>Mardi</h3>
   <div class="day-content">
     
@@ -374,7 +484,7 @@
         <h4>My Hero Academia</h4>
         <p>Nouveaux épisodes chaque lundi à 18h.</p>
         <div class="separator"></div>
-        <small>Le retour d'Izuku 🔥</small>
+        <small>Le retour d’Izuku 🔥</small>
       </div>
       <div class="anime-buttons">
    <button class="btn">VOSTFR</button>
@@ -431,7 +541,7 @@
 
 
 
-<div class="day-card" id="Mercredi">
+<div class="day-card" id="Mercredi" data-day="Mercredi">
   <h3>Mercredi</h3>
   <div class="day-content">
     
@@ -444,7 +554,7 @@
         <h4>Solo Leveling</h4>
         <p>Nouveaux épisodes chaque lundi à 18h.</p>
         <div class="separator"></div>
-        <small>Le retour d'Izuku 🔥</small>
+        <small>Le retour d’Izuku 🔥</small>
       </div>
       <div class="anime-buttons">
    <button class="btn">VOSTFR</button>
@@ -500,7 +610,7 @@
 
 
 
-<div class="day-card" id="Jeudi">
+<div class="day-card" id="Jeudi" data-day="Jeudi">
   <h3>Jeudi</h3>
   <div class="day-content">
     
@@ -513,7 +623,7 @@
         <h4>My Hero Academia</h4>
         <p>Nouveaux épisodes chaque lundi à 18h.</p>
         <div class="separator"></div>
-        <small>Le retour d'Izuku 🔥</small>
+        <small>Le retour d’Izuku 🔥</small>
       </div>
       <div class="anime-buttons">
    <button class="btn">vf</button>
@@ -568,7 +678,7 @@
 
 
 
-<div class="day-card" id="Vendredi">
+<div class="day-card" id="Vendredi" data-day="Vendredi">
   <h3>Vendredi</h3>
   <div class="day-content">
     
@@ -581,7 +691,7 @@
         <h4>My Hero Academia</h4>
         <p>Nouveaux épisodes chaque lundi à 18h.</p>
         <div class="separator"></div>
-        <small>Le retour d'Izuku 🔥</small>
+        <small>Le retour d’Izuku 🔥</small>
       </div>
       <div class="anime-buttons">
       <button class="btn">VOSTFR</button>
@@ -645,7 +755,7 @@
 
 
 
-<div class="day-card" id="Samedi">
+<div class="day-card" id="Samedi" data-day="Samedi">
   <h3>Samedi</h3>
   <div class="day-content">
     
@@ -658,7 +768,7 @@
         <h4>My Hero Academia</h4>
         <p>Nouveaux épisodes chaque lundi à 18h.</p>
         <div class="separator"></div>
-        <small>Le retour d'Izuku 🔥</small>
+        <small>Le retour d’Izuku 🔥</small>
       </div>
       <div class="anime-buttons">
    <button class="btn">VF</button>
@@ -724,7 +834,7 @@
 
 
 
-<div class="day-card" id="Dimanche">
+<div class="day-card" id="Dimanche" data-day="Dimanche">
   <h3>Dimanche</h3>
   <div class="day-content">
     
@@ -737,7 +847,7 @@
         <h4>My Hero Academia</h4>
         <p>Nouveaux épisodes chaque lundi à 18h.</p>
         <div class="separator"></div>
-        <small>Le retour d'Izuku 🔥</small>
+        <small>Le retour d’Izuku 🔥</small>
       </div>
       <div class="anime-buttons">
         <button class="btn">VF</button>
@@ -788,7 +898,6 @@
 
   </div>
 </section>
-
 
 
 

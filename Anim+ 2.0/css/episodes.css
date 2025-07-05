@@ -136,8 +136,14 @@ width: 100%;
 }
 
 
-.hero-btn {
+.hero-buttons {
   margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
   padding: 12px 24px;
   background-color: #4e5ad4;
   color: #ffffff;
@@ -148,7 +154,6 @@ width: 100%;
   box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
   cursor: pointer;
   text-decoration: none;
-  align-self: start;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
@@ -462,6 +467,11 @@ margin-top: 50PX;
     padding-right: 0;
   }
 
+  .hero-buttons {
+    gap: 8px;
+    justify-content: center;
+  }
+  
   .hero-btn {
     font-size: 0.85rem;
     padding: 10px 16px;

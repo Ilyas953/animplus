@@ -2,8 +2,17 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
+const PORT = 3000;
+
 app.use(express.json());
+
+
 app.use(express.static(path.join(__dirname, "Anim+ 2.0")));
+
+
+app.use('/videos', express.static(path.join(__dirname, 'videos')));
+
+
 
 const users = {};
 
@@ -34,11 +43,11 @@ app.post("/api/login", (req, res) => {
 
   if (users[pseudo] === userKey) {
     return res.json({ success: true });
-  } else {  
+  } else {
     return res.json({ success: false, message: "Mot de passe incorrect" });
   }
 });
 
-app.listen(3000, () => {
-  console.log("Serveur en écoute sur http://localhost:3000");
+app.listen(PORT, () => {
+    // Serveur démarré silencieusement
 });

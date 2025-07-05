@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Suppression - Anim+</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        .debug-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #333;
+            border-radius: 8px;
+        }
+        .error {
+            color: #ff6b6b;
+            background-color: #3a2a2a;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success {
+            color: #4ecdc4;
+            background-color: #2a3a2a;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .info {
+            color: #f39c12;
+            background-color: #3a3a2a;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #4e5ad4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #3a4bc4;
+        }
+        pre {
+            background-color: #1e1e1e;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+    
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/connexion.js"></script>
+    <script src="js/table-adapter.js"></script>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔍 Debug Suppression Favoris/Watchlist</h1>
+        
+        <div class="section">
+            <h2>1. Vérification de l'utilisateur</h2>
+            <div id="user-info"></div>
+        </div>
+        
+        <div class="section">
+            <h2>2. Test de connexion Supabase</h2>
+            <button onclick="testConnection()">Tester la connexion</button>
+            <div id="connection-result"></div>
+        </div>
+        
+        <div class="section">
+            <h2>3. Vérification RLS</h2>
+            <button onclick="checkRLS()">Vérifier RLS</button>
+            <div id="rls-result"></div>
+        </div>
+        
+        <div class="section">
+            <h2>4. Structure des tables</h2>
+            <button onclick="checkTableStructure()">Vérifier la structure</button>
+            <div id="structure-result"></div>
+        </div>
+        
+        <div class="section">
+            <h2>5. Test d'ajout et suppression</h2>
+            <button onclick="testAddAndRemove()">Tester ajout/suppression</button>
+            <div id="test-result"></div>
+        </div>
+        
+        <div class="section">
+            <h2>6. Logs détaillés</h2>
+            <div id="logs"></div>
+        </div>
+    </div>
+
+    <script>
+        const animeData = {
+            id: "debug-test-anime-" + Date.now(),
+            title: "Anime de Debug",
+            image: "debug-image.jpg",
+            genre: "Debug",
+            season: "Debug",
+            episodes: 1,
+            synopsis: "Anime de test pour debug"
+        };
+
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            logsDiv.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+        }
+
+        // 1. Vérification de l'utilisateur
+        document.addEventListener('DOMContentLoaded', () => {
+            const userId = localStorage.getItem('userId');
+            const username = localStorage.getItem('username');
+            const userInfo = document.getElementById('user-info');
+            
+            if (userId) {
+                userInfo.innerHTML = `<div class="success">✅ Connecté : ${username} (ID: ${userId})</div>`;
+                log(`Utilisateur connecté: ${username} (${userId})`);
+            } else {
+                userInfo.innerHTML = `<div class="error">❌ Aucun utilisateur connecté</div>`;
+                log('Aucun utilisateur connecté', 'error');
+            }
+        });
+
+        // 2. Test de connexion
+        async function testConnection() {
+            const resultDiv = document.getElementById('connection-result');
+            try {
+                const { data, error } = await supabase.from('users').select('count').limit(1);
+                if (error) throw error;
+                resultDiv.innerHTML = `<div class="success">✅ Connexion Supabase réussie</div>`;
+                log('Connexion Supabase réussie');
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Erreur de connexion: ${error.message}</div>`;
+                log(`Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+
+        // 3. Vérification RLS
+        async function checkRLS() {
+            const resultDiv = document.getElementById('rls-result');
+            try {
+                // Test direct sur les tables
+                const { data: favoritesData, error: favoritesError } = await supabase
+                    .from('favorites')
+                    .select('*')
+                    .limit(1);
+                
+                const { data: watchlistData, error: watchlistError } = await supabase
+                    .from('watchlist')
+                    .select('*')
+                    .limit(1);
+                
+                let result = '';
+                if (favoritesError) {
+                    result += `<div class="error">❌ Erreur table favorites: ${favoritesError.message}</div>`;
+                    log(`Erreur table favorites: ${favoritesError.message}`, 'error');
+                } else {
+                    result += `<div class="success">✅ Table favorites accessible</div>`;
+                    log('Table favorites accessible');
+                }
+                
+                if (watchlistError) {
+                    result += `<div class="error">❌ Erreur table watchlist: ${watchlistError.message}</div>`;
+                    log(`Erreur table watchlist: ${watchlistError.message}`, 'error');
+                } else {
+                    result += `<div class="success">✅ Table watchlist accessible</div>`;
+                    log('Table watchlist accessible');
+                }
+                
+                resultDiv.innerHTML = result;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Erreur lors de la vérification RLS: ${error.message}</div>`;
+                log(`Erreur vérification RLS: ${error.message}`, 'error');
+            }
+        }
+
+        // 4. Vérification structure
+        async function checkTableStructure() {
+            const resultDiv = document.getElementById('structure-result');
+            try {
+                const { data: favoritesData, error: favoritesError } = await supabase
+                    .from('favorites')
+                    .select('*')
+                    .limit(1);
+                
+                const { data: watchlistData, error: watchlistError } = await supabase
+                    .from('watchlist')
+                    .select('*')
+                    .limit(1);
+                
+                let result = '<h3>Structure table favorites:</h3>';
+                if (favoritesData && favoritesData.length > 0) {
+                    result += `<pre>${JSON.stringify(Object.keys(favoritesData[0]), null, 2)}</pre>`;
+                    log(`Structure favorites: ${JSON.stringify(Object.keys(favoritesData[0]))}`);
+                } else {
+                    result += '<div class="info">Table vide ou pas de données</div>';
+                    log('Table favorites vide');
+                }
+                
+                result += '<h3>Structure table watchlist:</h3>';
+                if (watchlistData && watchlistData.length > 0) {
+                    result += `<pre>${JSON.stringify(Object.keys(watchlistData[0]), null, 2)}</pre>`;
+                    log(`Structure watchlist: ${JSON.stringify(Object.keys(watchlistData[0]))}`);
+                } else {
+                    result += '<div class="info">Table vide ou pas de données</div>';
+                    log('Table watchlist vide');
+                }
+                
+                resultDiv.innerHTML = result;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Erreur lors de la vérification structure: ${error.message}</div>`;
+                log(`Erreur vérification structure: ${error.message}`, 'error');
+            }
+        }
+
+        // 5. Test d'ajout et suppression
+        async function testAddAndRemove() {
+            const resultDiv = document.getElementById('test-result');
+            const userId = localStorage.getItem('userId');
+            
+            if (!userId) {
+                resultDiv.innerHTML = '<div class="error">❌ Aucun utilisateur connecté</div>';
+                return;
+            }
+            
+            try {
+                log('=== DÉBUT DU TEST AJOUT/SUPPRESSION ===');
+                
+                // Test 1: Ajouter aux favoris
+                log('1. Ajout aux favoris...');
+                const addResult = await tableAdapter.addToFavorites(userId, animeData);
+                log(`✅ Ajout favoris réussi: ${JSON.stringify(addResult)}`);
+                
+                // Test 2: Vérifier qu'il est bien ajouté
+                log('2. Vérification ajout...');
+                const isInFavorites = await tableAdapter.isInFavorites(userId, animeData.id);
+                log(`✅ Vérification: ${isInFavorites ? 'Présent' : 'Absent'} dans les favoris`);
+                
+                // Test 3: Supprimer des favoris
+                log('3. Suppression des favoris...');
+                const removeResult = await tableAdapter.removeFromFavorites(userId, animeData.id);
+                log(`✅ Suppression favoris: ${removeResult}`);
+                
+                // Test 4: Vérifier qu'il est bien supprimé
+                log('4. Vérification suppression...');
+                const isStillInFavorites = await tableAdapter.isInFavorites(userId, animeData.id);
+                log(`✅ Vérification après suppression: ${isStillInFavorites ? 'Toujours présent' : 'Bien supprimé'}`);
+                
+                // Test 5: Vérifier directement dans la base
+                log('5. Vérification directe dans la base...');
+                const { data: directCheck, error: directError } = await supabase
+                    .from('favorites')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .eq('anime_id', animeData.id);
+                
+                if (directError) {
+                    log(`❌ Erreur vérification directe: ${directError.message}`, 'error');
+                } else {
+                    log(`✅ Vérification directe: ${directCheck.length} entrées trouvées`);
+                }
+                
+                // Résumé
+                let summary = '';
+                if (isInFavorites && !isStillInFavorites) {
+                    summary = '<div class="success">✅ Test réussi ! L\'anime a été ajouté puis correctement supprimé.</div>';
+                } else if (isInFavorites && isStillInFavorites) {
+                    summary = '<div class="error">❌ Problème : L\'anime est toujours présent après suppression</div>';
+                } else if (!isInFavorites) {
+                    summary = '<div class="error">❌ Problème : L\'anime n\'a pas été ajouté correctement</div>';
+                } else {
+                    summary = '<div class="success">✅ Test réussi !</div>';
+                }
+                
+                resultDiv.innerHTML = summary;
+                log('=== FIN DU TEST ===');
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Erreur lors du test: ${error.message}</div>`;
+                log(`Erreur test: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html> 

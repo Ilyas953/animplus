@@ -143,19 +143,26 @@
 
 
 
-
-
 <div id="login-popup" class="popup hidden">
-  <div class="popup-content">
-
+<div class="popup-content">
+      <button id="close-popup" aria-label="Fermer" class="close-btnn">&times;</button>
+  <div class="popup-header">
+    
     <h2 id="popup-title" class="popup-title">Connecte-toi à ton compte</h2>
+
+  </div>
+
+    <select id="mode-select" onchange="toggleMode()" style="display:none;">
+      <option value="login">Connexion</option>
+      <option value="register">Tu n'as toujours pas de compte ?</option>
+    </select>
 
     <div id="login-form">
       <input type="text" id="login-username" placeholder="Pseudo" autocomplete="username">
 
-      <h3 class="input-subtitle">Entrez votre personnage préféré</h3>
+      <h3 class="input-subtitle">Entrez votre code secret</h3>
 
-      <input type="text" id="login-password" placeholder="Personnage préféré">
+      <input type="password" id="login-password" placeholder="Code secret" autocomplete="current-password">
 
       <button onclick="submitLogin()" class="btn-submit">Valider</button>
 
@@ -164,45 +171,74 @@
       </div>
     </div>
 
-    <div id="register-form" class="hidden">
-      <div id="register-step1">
-        <input type="text" id="register-username" placeholder="Pseudo" autocomplete="username">
-        <button onclick="goToStep2()" class="btn-submit">Suivant</button>
-        <div style="text-align: right; margin-top: 5px;">
-          <a href="#" id="switch-to-login" class="link-login">Retour Connexion</a>
-        </div>
-      </div>
+    <div id="register-step1" class="hidden">
+      <input type="text" id="register-username" placeholder="Pseudo" autocomplete="username">
 
-      <div id="register-step2" class="hidden">
-        <h3>Choisissez votre image de profil</h3>
-        <div id="profile-pictures" class="profile-pictures-container"></div>
-        <button onclick="goToStep3()" disabled id="profile-next-btn" class="btn-submit">Suivant</button>
+      <button onclick="goToStep2()" class="btn-submit">Suivant</button>
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-login" class="link-login">Retour Connexion</a>
       </div>
+    </div>
 
-      <div id="register-step3" class="hidden">
-        <select id="anime-select" onchange="updateCharacterOptions()">
-          <option value="">Choisissez un anime</option>
-          <option value="snk">Shingeki no Kyojin</option>
-          <option value="onepiece">One Piece</option>
-          <option value="bleach">Bleach</option>
-          <option value="mha">My Hero Academia</option>
-          <option value="naruto">Naruto</option>
-          <option value="dragonball">Dragon Ball</option>
-        </select>
-        <select id="character-select" disabled>
-          <option value="">Choisissez un personnage</option>
-        </select>
-        <button onclick="submitRegister()" class="btn-submit">Créer mon compte</button>
+    <div id="register-step2" class="hidden">
+      <h3>Choisissez votre image de profil</h3>
+      <div id="profile-pictures" class="profile-pictures-container"></div>
+      <button onclick="goToStep3()" disabled id="profile-next-btn" class="btn-submit">Suivant</button>
+    </div>
+
+    <div id="register-step3" class="hidden">
+      <select id="anime-select" onchange="updateCharacterOptions()">
+        <option value="">Choisissez un anime</option>
+        <option value="snk">Shingeki no Kyojin</option>
+        <option value="onepiece">One Piece</option>
+        <option value="bleach">Bleach</option>
+        <option value="mha">My Hero Academia</option>
+        <option value="naruto">Naruto</option>
+        <option value="dragonball">Dragon Ball</option>
+      </select>
+      
+      <h3>Choisissez 4 personnages de votre anime préféré</h3>
+      <select id="character-select-1" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-2" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-3" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-4" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      
+      <div id="character-error" style="display: none; color: red; margin-top: 10px;">
+        Veuillez sélectionner exactement 4 personnages différents
       </div>
+      
+      <button onclick="submitRegister()" class="btn-submit">Valider</button>
     </div>
 
   </div>
 </div>
 
-
 <div id="notification" class="notification hidden"></div> 
 
 
+
+<script>
+const popup = document.getElementById('login-popup');
+const closeBtnn = document.getElementById('close-popup');
+
+popup.addEventListener('click', (event) => {
+  if (event.target === popup) {
+    closePopup();
+  }
+});
+
+closeBtnn.addEventListener('click', () => {
+  closePopup();
+});
+</script>
 
 
 
@@ -996,7 +1032,7 @@ planningBtn.addEventListener('click', () => {
 
 
 
-
+    <script src="js/sliderhome.js"></script>
      <script src="js/navbar.js"></script>
     <script src="js/Planning.js"></script>
     <script src="js/btnup.js"></script>

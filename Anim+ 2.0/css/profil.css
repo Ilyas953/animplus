@@ -1,3 +1,11 @@
 .profile-container {
-    max-width: 92%;
+    max-width: 90%;
 }
+
+
+  @media (max-width: 768px) {
+    .profile-container {
+      margin-top: 18% !important;
+
+    }
+  }

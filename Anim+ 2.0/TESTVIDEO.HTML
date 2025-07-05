@@ -19,6 +19,7 @@
     <!-- Supabase -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="js/connexion.js"></script>
+    <script src="js/table-adapter.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -62,12 +63,116 @@
  
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="login-popup" class="popup hidden">
+<div class="popup-content">
+      <button id="close-popup" aria-label="Fermer" class="close-btnn">&times;</button>
+  <div class="popup-header">
+    
+    <h2 id="popup-title" class="popup-title">Connecte-toi à ton compte</h2>
+
+  </div>
+
+    <select id="mode-select" onchange="toggleMode()" style="display:none;">
+      <option value="login">Connexion</option>
+      <option value="register">Tu n'as toujours pas de compte ?</option>
+    </select>
+
+    <div id="login-form">
+      <input type="text" id="login-username" placeholder="Pseudo" autocomplete="username">
+
+      <h3 class="input-subtitle">Entrez votre code secret</h3>
+
+      <input type="password" id="login-password" placeholder="Code secret" autocomplete="current-password">
+
+      <button onclick="submitLogin()" class="btn-submit">Valider</button>
+
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-register" class="link-register">Tu n'as toujours pas de compte ?</a>
+      </div>
+    </div>
+
+    <div id="register-step1" class="hidden">
+      <input type="text" id="register-username" placeholder="Pseudo" autocomplete="username">
+
+      <button onclick="goToStep2()" class="btn-submit">Suivant</button>
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-login" class="link-login">Retour Connexion</a>
+      </div>
+    </div>
+
+    <div id="register-step2" class="hidden">
+      <h3>Choisissez votre image de profil</h3>
+      <div id="profile-pictures" class="profile-pictures-container"></div>
+      <button onclick="goToStep3()" disabled id="profile-next-btn" class="btn-submit">Suivant</button>
+    </div>
+
+    <div id="register-step3" class="hidden">
+      <select id="anime-select" onchange="updateCharacterOptions()">
+        <option value="">Choisissez un anime</option>
+        <option value="snk">Shingeki no Kyojin</option>
+        <option value="onepiece">One Piece</option>
+        <option value="bleach">Bleach</option>
+        <option value="mha">My Hero Academia</option>
+        <option value="naruto">Naruto</option>
+        <option value="dragonball">Dragon Ball</option>
+      </select>
+      <select id="character-select" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <button onclick="submitRegister()" class="btn-submit">Valider</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="notification" class="notification hidden"></div> 
+
+
+
+<SCript>
+const popup = document.getElementById('login-popup');
+const closeBtnn = document.getElementById('close-popup');
+
+popup.addEventListener('click', (event) => {
+  if (event.target === popup) {
+    popup.classList.add('hidden');
+  }
+});
+
+closeBtnn.addEventListener('click', () => {
+  popup.classList.add('hidden');
+});
+
+</SCript>
+
+
+
+
+
+
+
+
+
+
+
   
       <div class="navbar-bottom">
 
         <a class='nav-item active' href='accueil.html' id='home'>
             <i class='bx bx-home-alt-2'></i>
-            w
+            
         </a>
         <a href="Catalogue.html" class="nav-item" id="bible">
             <i class='bx bx-collection'></i>
@@ -80,22 +185,22 @@
     </div>
 
 
-
 <header>
     <nav class="navbar">
         <div class="logo">
             <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
         </div>
-   <ul class="menu">
+    <ul class="menu">
           <li><a href="Accueil.html"  >Accueil</a></li>
             <li><a href="Catalogue.html" >Catalogue</a></li>
             <li><a href="Planning.html">Planning</a></li>
         </ul>
 
+
         
       
 <div class="actions">
-    <a href="/recherche">
+    <a href="search.html">
         <button class="btn-box-icon">
             <i class='bx bx-search'></i>
             Recherche
@@ -119,6 +224,8 @@
 
 
 
+
+
 <div class="hero-image">
   <img src="assets/img/solo level.webp" alt="Image hero" />
 
@@ -127,7 +234,7 @@
     <div class="info-text">
       <h1>Solo Leveling</h1>
       <p class="meta">
-        Genre : <span class="genre">Action · Fantastique</span> | 
+        Genre : <span class="genre">Action · vo · Fantastique</span> | 
         <span class="season">2 saison</span>
       </p>
       <p class="synopsis">
@@ -138,10 +245,20 @@
       </p>
 
 
-<a href="#" id="hero-btn" class="hero-btn">
-  <i class='bx bx-play'></i>
-  <span>Regarder</span>
-</a>
+<div class="hero-buttons">
+  <a href="#" id="hero-btn" class="hero-btn">
+    <i class='bx bx-play'></i>
+    <span>Regarder</span>
+  </a>
+  <button id="add-to-favorites" class="hero-btn">
+    <i class='bx bx-heart'></i>
+    <span>Favoris</span>
+  </button>
+  <button id="add-to-watchlist" class="hero-btn">
+    <i class='bx bx-plus'></i>
+    <span>À regarder</span>
+  </button>
+</div>
 
 
     </div>
@@ -181,68 +298,68 @@
     <div class="grid-cards">
       
 
-      <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5389406">
+      <div class="card" data-index="0">
         <img src="assets/img/SOLO LEVEL/EP1.avif" alt="Épisode 1" />
         <h3>Épisode 1 - J'y suis habitué</h3>
       </div>
 
-      <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5397577">
+      <div class="card " data-index="1" >
         <img src="assets/img/SOLO LEVEL/EP2.avif" alt="Épisode 2" />
         <h3>Épisode 2 - Si j'avais encore une chance</h3>
       </div>
 
-      <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5406329">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP3.avif" alt="Épisode 3" />
         <h3>Épisode 3 - C'est comme un jeu</h3>
       </div>
 
-      <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5414604">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP4.avif" alt="Épisode 4" />
         <h3>Épisode 4 - Je dois devenir plus fort</h3>
       </div>
 
-         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5421264">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP5.png" alt="Épisode 4" />
         <h3>Épisode 5 -  Une très bonne affaire</h3>
       </div>
 
-         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5428101">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP6.jfif" alt="Épisode 4" />
         <h3>Épisode 6 - La vraie chasse commence</h3>
       </div>
 
-         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5435724">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP7.avif" alt="Épisode 4" />
         <h3>Épisode 7 -  Voyons jusqu'où je peux aller</h3>
       </div>
 
-    <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5444576">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/E7.5.webp" alt="Épisode 4" />
         <h3>Épisode 7,5 -   Comment devenir plus fort</h3>
       </div>
 
 
-         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5453063">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP8.webp" alt="Épisode 4" />
         <h3>Épisode 8 - C'est frustrant</h3>
       </div>
 
-         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5461770">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP9.webp" alt="Épisode 4" />
         <h3>Épisode 9 - Vous avez caché vos compétences</h3>
       </div>
 
-         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5470382">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP 10.webp" alt="Épisode 4" />
         <h3>Épisode 10 - Qu'est-ce que c'est, un pique-nique ?</h3>
       </div>
 
-         <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5479260">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP 11.webp" alt="Épisode 4" />
         <h3>Épisode 11 -  Un chevalier qui défend un trône vide</h3>
       </div>
 
-          <div class="card" data-video="https://video.sibnet.ru/shell.php?videoid=5487838">
+      <div class="card">
         <img src="assets/img/SOLO LEVEL/EP 12.webp" alt="Épisode 4" />
         <h3>Épisode 12 -  Lève-toi</h3>
       </div>
@@ -254,6 +371,8 @@
   </div>
 
 
+
+
   <div class="tab-panel" id="similaires">
 
 
@@ -263,8 +382,9 @@
 
 <a href="lien1.html" class="similar-card">
   <img src="assets/img/affiche/SOLO LEVEL S2.webp" alt="Solo Leveling Saison 2" />
-  <h3>Solo Leveling Saison 2</h3>
+  <h3>Solo Leveling Saison 2 </h3>
 </a>
+
 
 <a href="lien2.html" class="similar-card">
   <img src="assets/img/affiche/affiche jujutsu kaisen.jpg" alt="Jujutsu Kaisen" />
@@ -302,11 +422,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="popup" class="popup">
+  <div class="popup-content" onclick="event.stopPropagation()">
+    <h2>Choisissez un lecteur</h2>
+    <button class="btn lecteur1" onclick="selectPlayer('lecteur1')">Lecteur 1</button>
+    <button class="btn lecteur2" onclick="selectPlayer('lecteur2')">A+</button>
+  </div>
+</div>
+
+
+
+
+
+
 <div id="video-popup" class="video-popup">
   <div class="video-controls">
 
 
-        <div class="dropdown">
+   <div class="dropdown">
       <button id="dropdownBtn" class="btn-back dropdown-toggle">
         <img src="assets/logo Anim+ SANS FOND.png" alt="Menu" class="btn-icon" />
         Menu
@@ -317,10 +462,8 @@
           <img src="assets/logo Anim+ SANS FOND.png" alt="Retour" class="btn-icon" />
           Retour
         </button>
-        <button class="dropdown-item">Lecteur 1</button>
-        <button class="dropdown-item">Lecteur 2</button>
-
       </div>
+      
     </div>
 
 
@@ -337,10 +480,37 @@
     </div>
   </div>
   <iframe id="video-frame" src="" frameborder="0" allowfullscreen></iframe>
+<video id="blob-video" class="blob-video" width="100%" height="auto" playsinline controls></video>
+
+
 </div>
 
 
 
+
+
+<script>
+
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.getElementById('popup').style.display = 'flex';
+    document.body.classList.add('noscroll');
+  });
+});
+
+
+document.getElementById('popup').addEventListener('click', () => {
+  closePopup();
+});
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+  document.body.classList.remove('noscroll'); 
+}
+
+
+</script>
 
 
 
@@ -354,204 +524,205 @@ const videoUrlsLecteur1 = [
   'https://video.sibnet.ru/shell.php?videoid=5428101',
   'https://video.sibnet.ru/shell.php?videoid=5435724',
   'https://video.sibnet.ru/shell.php?videoid=5444576',
-'  https://video.sibnet.ru/shell.php?videoid=5453063',
-'  https://video.sibnet.ru/shell.php?videoid=5461770',
-'  https://video.sibnet.ru/shell.php?videoid=5470382',
-'  https://video.sibnet.ru/shell.php?videoid=5479260',
-'  https://video.sibnet.ru/shell.php?videoid=5487838',
-
-
+  'https://video.sibnet.ru/shell.php?videoid=5453063',
+  'https://video.sibnet.ru/shell.php?videoid=5461770',
+  'https://video.sibnet.ru/shell.php?videoid=5470382',
+  'https://video.sibnet.ru/shell.php?videoid=5479260',
+  'https://video.sibnet.ru/shell.php?videoid=5487838'
 ];
 
-
-
 const videoUrlsLecteur2 = [
-  'https://vidmoly.to/embed-bk4i3184ecvg.html',
-  'https://autresite.com/video?id=2222',
-  'https://autresite.com/video?id=3333',
-
+  'videos/1.mp4',
+  'videos/2.mp4'
 ];
 
 let activeLecteur = 'lecteur1';
-let videoUrls = videoUrlsLecteur1;  
+let currentEpisodeIndex = null;
 
-const lecteur1Btn = document.querySelector(".dropdown-item:nth-child(2)");
-const lecteur2Btn = document.querySelector(".dropdown-item:nth-child(3)");
+const iframe = document.getElementById('video-frame');
+const blobVideo = document.getElementById('blob-video');
+const videoPopup = document.getElementById('video-popup');
+const selectionPopup = document.getElementById('popup');
 
-lecteur1Btn.addEventListener("click", () => {
-  activeLecteur = 'lecteur1';
-  videoUrls = videoUrlsLecteur1;
-  if (currentIndex >= 0) openPopupWithEpisode(currentIndex);
-  dropdownMenu.style.display = "none";
-});
-
-lecteur2Btn.addEventListener("click", () => {
-  activeLecteur = 'lecteur2';
-  videoUrls = videoUrlsLecteur2;
-  if (currentIndex >= 0) openPopupWithEpisode(currentIndex);
-  dropdownMenu.style.display = "none";
-});
-
-
-const cards = document.querySelectorAll(".card");
-const popup = document.getElementById("video-popup");
-const iframe = document.getElementById("video-frame");
-const backBtn = document.getElementById("back-btn");
-const nextBtn = document.getElementById("next-btn");
 const prevBtn = document.getElementById("prev-btn");
-
+const nextBtn = document.getElementById("next-btn");
 const prevLabel = prevBtn.querySelector(".episode-label");
 const nextLabel = nextBtn.querySelector(".episode-label");
 
-const heroBtn = document.getElementById("hero-btn");
-const heroBtnText = heroBtn.querySelector("span");
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+    currentEpisodeIndex = parseInt(card.getAttribute("data-index"));
+    selectionPopup.style.display = 'flex';
+    document.body.classList.add('noscroll');
+  });
+});
 
-let currentIndex = -1;
+selectionPopup.addEventListener("click", closePopup);
 
-
-function updateEpisodeLabels(index) {
-  prevLabel.textContent = index > 0 ? `EP${index}` : "";
-  nextLabel.textContent = index < videoUrls.length - 1 ? `EP${index + 2}` : "";
+function closePopup() {
+  selectionPopup.style.display = "none";
+  document.body.classList.remove("noscroll");
 }
 
 
-function updateHeroBtn(index) {
-  if (index >= 0 && index < videoUrls.length) {
-    heroBtnText.textContent = `Reprendre EP${index + 1}`;
-    heroBtn.classList.remove("disabled");
+
+async function fetchAsBlobUrl(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Erreur de téléchargement");
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  } catch (err) {
+    console.error("Erreur blob:", err);
+    return null;
+  }
+}
+
+
+async function selectPlayer(player) {
+  activeLecteur = player;
+  const urls = player === "lecteur1" ? videoUrlsLecteur1 : videoUrlsLecteur2;
+  const url = urls[currentEpisodeIndex];
+
+  if (!url) {
+    alert("Vidéo non disponible pour cet épisode.");
+    closePopup();
+    return;
+  }
+
+  if (player === "lecteur1") {
+    iframe.style.display = "block";
+    blobVideo.style.display = "none";
+    iframe.src = url;
   } else {
-    heroBtnText.textContent = "Regarder";
-    heroBtn.classList.add("disabled");
+    iframe.style.display = "none";
+    blobVideo.style.display = "block";
+
+    const blobUrl = await fetchAsBlobUrl(url);
+    if (!blobUrl) {
+      alert("Erreur lors du chargement de la vidéo.");
+      return;
+    }
+
+    blobVideo.src = blobUrl;
+    blobVideo.setAttribute("autoplay", "");
+    blobVideo.setAttribute("playsinline", "");
+    blobVideo.load();
+    blobVideo.play();
   }
+
+  videoPopup.style.display = "flex";
+  updateEpisodeLabels(currentEpisodeIndex);
+  closePopup();
 }
 
-
-function openPopupWithEpisode(index) {
-  if (index < 0 || index >= videoUrls.length) return;
-  currentIndex = index;
-  iframe.src = videoUrls[index];
-  popup.style.display = "flex";
-  updateEpisodeLabels(index);
-  updateHeroBtn(index);
-  localStorage.setItem("lastEpisodeIndex", index); 
-}
-
-
-function changeEpisode(index) {
-  if (index < 0 || index >= videoUrls.length) return;
-  openPopupWithEpisode(index); 
-}
-
-
-cards.forEach((card, index) => {
-  const videoUrl = card.getAttribute("data-video");
-  if (videoUrl) {
-    card.addEventListener("click", () => {
-      openPopupWithEpisode(index);
-    });
-  }
-});
-
-
-heroBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  const savedIndex = parseInt(localStorage.getItem("lastEpisodeIndex"));
-  if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < videoUrls.length) {
-    openPopupWithEpisode(savedIndex);
-  } else {
-    openPopupWithEpisode(0); 
-  }
-});
-
-
-nextBtn.addEventListener("click", () => {
-  if (currentIndex < videoUrls.length - 1) {
-    changeEpisode(currentIndex + 1);
-  }
-});
 
 prevBtn.addEventListener("click", () => {
-  if (currentIndex > 0) {
-    changeEpisode(currentIndex - 1);
+  const urls = activeLecteur === "lecteur1" ? videoUrlsLecteur1 : videoUrlsLecteur2;
+  if (currentEpisodeIndex > 0) {
+    currentEpisodeIndex--;
+    loadEpisode(urls[currentEpisodeIndex]);
+    updateEpisodeLabels(currentEpisodeIndex);
   }
 });
 
-
-backBtn.addEventListener("click", () => {
-  popup.style.display = "none";
-  iframe.src = "";
+nextBtn.addEventListener("click", () => {
+  const urls = activeLecteur === "lecteur1" ? videoUrlsLecteur1 : videoUrlsLecteur2;
+  if (currentEpisodeIndex < urls.length - 1) {
+    currentEpisodeIndex++;
+    loadEpisode(urls[currentEpisodeIndex]);
+    updateEpisodeLabels(currentEpisodeIndex);
+  }
 });
 
+async function loadEpisode(url) {
+  if (activeLecteur === "lecteur1") {
+    iframe.src = url;
+  } else {
+    if (blobVideo.src.startsWith("blob:")) {
+      URL.revokeObjectURL(blobVideo.src);
+    }
+    const blobUrl = await fetchAsBlobUrl(url);
+    if (!blobUrl) {
+      alert("Erreur lors du chargement de la vidéo.");
+      return;
+    }
+    blobVideo.src = blobUrl;
+    blobVideo.load();
+    blobVideo.play();
+  }
+}
 
+function updateEpisodeLabels(index) {
+  const urls = activeLecteur === "lecteur1" ? videoUrlsLecteur1 : videoUrlsLecteur2;
+  prevLabel.textContent = index > 0 ? `EP${index}` : "";
+  nextLabel.textContent = index < urls.length - 1 ? `EP${index + 2}` : "";
+}
+
+
+function closeVideoPlayer() {
+  iframe.src = "";
+  if (blobVideo.src.startsWith("blob:")) {
+    URL.revokeObjectURL(blobVideo.src);
+  }
+  blobVideo.pause();
+  blobVideo.src = "";
+  videoPopup.style.display = "none";
+  dropdownMenu.style.display = "none";
+}
+
+document.getElementById("back-btn").addEventListener("click", closeVideoPlayer);
 window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
-    popup.style.display = "none";
-    iframe.src = "";
+    closeVideoPlayer();
   }
 });
-
-
-const savedIndex = parseInt(localStorage.getItem("lastEpisodeIndex"));
-if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < videoUrls.length) {
-  currentIndex = savedIndex;
-  updateHeroBtn(currentIndex);
-} else {
-  currentIndex = -1;
-  updateHeroBtn(-1);
-}
-
-
-if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < cards.length) {
-  const resumeCard = cards[savedIndex];
-  const img = resumeCard.querySelector("img");
-
-  if (img) {
-    const banner = document.createElement("div");
-    banner.className = "resume-banner";
-
-    banner.innerHTML = `
-      <i class="fas fa-eye" style="margin-right: 6px;"></i>
-      <span>Reprendre le visionnage</span>
-    `;
-
-    resumeCard.style.position = "relative";
-    img.style.position = "relative";
-    resumeCard.appendChild(banner);
-  }
-}
-
 
 
 const dropdownBtn = document.getElementById("dropdownBtn");
 const dropdownMenu = document.getElementById("dropdownMenu");
 
-
-// Toggle menu dropdown au clic sur bouton
 dropdownBtn.addEventListener("click", (e) => {
-  e.stopPropagation(); // éviter fermeture immédiate
-  dropdownMenu.style.display = dropdownMenu.style.display === "flex" ? "none" : "flex";
-  dropdownMenu.style.flexDirection = "column";
+  e.stopPropagation();
+  dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
 });
 
-// Fermer dropdown si clic en dehors
-window.addEventListener("click", () => {
+document.addEventListener("click", () => {
   dropdownMenu.style.display = "none";
 });
+dropdownMenu.addEventListener("click", (e) => e.stopPropagation());
 
-// Fermer la popup au clic sur "Retour"
-backBtn.addEventListener("click", () => {
-  popup.style.display = "none";
-  iframe.src = "";
-  dropdownMenu.style.display = "none";
+
+
+const player = new Plyr('#blob-video', {
+  controls: [
+    'play-large', 
+    'play', 'pause', 'rewind', 'fast-forward',
+    'progress',
+    'current-time', 'duration',
+    'mute', 'volume',
+    'captions',
+    'settings',
+    'fullscreen'
+  ],
+  settings: ['quality', 'speed', 'loop'],
+  speed: { selected: 1, options: [0.5, 1, 1.5, 2] }
 });
 
+player.on('play', () => {
+  console.log('La vidéo a démarré.');
+});
 
+player.on('pause', () => {
+  console.log('Pause...');
+});
+
+player.on('ended', () => {
+  alert('Vidéo terminée !');
+});
 
 
 </script>
-
-
-
 
 
 
@@ -625,12 +796,126 @@ backBtn.addEventListener("click", () => {
 
 
 
-
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 
 
     <script src="js/navbar.js"></script>
    <script src="js/episodes.js"></script>
     <script src="js/Details.js"></script>
 
-</body>
+    <script>
+      // Données de l'anime Solo Leveling
+      const animeData = {
+        id: "solo-leveling-s1",
+        anime_id: "solo-leveling-s1", // Ajout pour compatibilité
+        title: "Solo Leveling",
+        image: "assets/img/affiche/affiche solo leveling.jpg",
+        genre: "Action · VO · Fantastique",
+        season: "Saison 1",
+        episodes: 12,
+        synopsis: "Après avoir été mortellement blessé lorsqu'il est tombé par hasard sur un double donjon caché, Jinwoo est miraculeusement rescapé. Au bord de la mort, il entrevoit une quête et saisit une opportunité qui lui permet dès lors de gagner en puissance très rapidement."
+      };
+
+      // Gestion des boutons favoris et watchlist
+      document.addEventListener('DOMContentLoaded', async () => {
+        const addToFavoritesBtn = document.getElementById('add-to-favorites');
+        const addToWatchlistBtn = document.getElementById('add-to-watchlist');
+        
+        // Vérifier si l'utilisateur est connecté
+        const userId = localStorage.getItem('userId');
+        
+        if (!userId) {
+          // Si pas connecté, changer le comportement des boutons
+          addToFavoritesBtn.onclick = () => {
+            alert('Vous devez être connecté pour ajouter aux favoris');
+          };
+          addToWatchlistBtn.onclick = () => {
+            alert('Vous devez être connecté pour ajouter à votre liste');
+          };
+          return;
+        }
+
+        // Vérifier si l'anime est déjà dans les favoris/watchlist
+        const isInFavorites = await tableAdapter.isInFavorites(userId, animeData.id);
+        const isInWatchlist = await tableAdapter.isInWatchlist(userId, animeData.id);
+
+        // Mettre à jour l'apparence des boutons
+        updateButtonAppearance(addToFavoritesBtn, isInFavorites, 'favorites');
+        updateButtonAppearance(addToWatchlistBtn, isInWatchlist, 'watchlist');
+
+        // Gestion du bouton favoris
+        addToFavoritesBtn.onclick = async () => {
+          try {
+            const currentStatus = await tableAdapter.isInFavorites(userId, animeData.id);
+            
+            if (currentStatus) {
+              // Retirer des favoris
+              await tableAdapter.removeFromFavorites(userId, animeData.id);
+              updateButtonAppearance(addToFavoritesBtn, false, 'favorites');
+              alert('Anime retiré des favoris');
+            } else {
+              // Ajouter aux favoris
+              await tableAdapter.addToFavorites(userId, animeData);
+              updateButtonAppearance(addToFavoritesBtn, true, 'favorites');
+              alert('Anime ajouté aux favoris !');
+            }
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('Erreur: ' + error.message);
+          }
+        };
+
+        // Gestion du bouton watchlist
+        addToWatchlistBtn.onclick = async () => {
+          try {
+            const currentStatus = await tableAdapter.isInWatchlist(userId, animeData.id);
+            
+            if (currentStatus) {
+              // Retirer de la watchlist
+              await tableAdapter.removeFromWatchlist(userId, animeData.id);
+              updateButtonAppearance(addToWatchlistBtn, false, 'watchlist');
+              alert('Anime retiré de votre liste');
+            } else {
+              // Ajouter à la watchlist
+              await tableAdapter.addToWatchlist(userId, animeData);
+              updateButtonAppearance(addToWatchlistBtn, true, 'watchlist');
+              alert('Anime ajouté à votre liste !');
+            }
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('Erreur: ' + error.message);
+          }
+        };
+      });
+
+      // Fonction pour mettre à jour l'apparence des boutons
+      function updateButtonAppearance(button, isAdded, type) {
+        const icon = button.querySelector('i');
+        const text = button.querySelector('span');
+        
+        if (isAdded) {
+          if (type === 'favorites') {
+            icon.className = 'bx bxs-heart';
+            text.textContent = 'Favori';
+            button.style.backgroundColor = '#ff6b6b';
+          } else if (type === 'watchlist') {
+            icon.className = 'bx bxs-check';
+            text.textContent = 'Ajouté';
+            button.style.backgroundColor = '#4ecdc4';
+          }
+        } else {
+          if (type === 'favorites') {
+            icon.className = 'bx bx-heart';
+            text.textContent = 'Favoris';
+            button.style.backgroundColor = '#4e5ad4';
+          } else if (type === 'watchlist') {
+            icon.className = 'bx bx-plus';
+            text.textContent = 'À regarder';
+            button.style.backgroundColor = '#4e5ad4';
+          }
+        }
+      }
+    </script>
+
+    </body>
 </html>

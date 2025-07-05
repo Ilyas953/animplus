@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Tables - Anim+</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .test-section {
+            background-color: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .error {
+            color: #ff6b6b;
+            background-color: #3a2a2a;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success {
+            color: #4ecdc4;
+            background-color: #2a3a2a;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #4e5ad4;
+        }
+        pre {
+            background-color: #1e1e1e;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+    
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/connexion.js"></script>
+</head>
+<body>
+    <h1>Test des Tables Favoris et Watchlist</h1>
+    
+    <div class="test-section">
+        <h2>1. Test de Connexion Supabase</h2>
+        <button onclick="testSupabaseConnection()">Tester la connexion</button>
+        <div id="connection-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Test de la Table Users</h2>
+        <button onclick="testUsersTable()">Tester la table users</button>
+        <div id="users-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Test de la Table Favorites</h2>
+        <button onclick="testFavoritesTable()">Tester la table favorites</button>
+        <div id="favorites-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Test de la Table Watchlist</h2>
+        <button onclick="testWatchlistTable()">Tester la table watchlist</button>
+        <div id="watchlist-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. Test d'Ajout aux Favoris</h2>
+        <button onclick="testAddToFavorites()">Tester l'ajout aux favoris</button>
+        <div id="add-favorites-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>6. Test d'Ajout à la Watchlist</h2>
+        <button onclick="testAddToWatchlist()">Tester l'ajout à la watchlist</button>
+        <div id="add-watchlist-result"></div>
+    </div>
+
+    <script>
+        function showResult(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="${isError ? 'error' : 'success'}">${message}</div>`;
+        }
+
+        async function testSupabaseConnection() {
+            try {
+                const { data, error } = await supabase.from('users').select('count').limit(1);
+                if (error) throw error;
+                showResult('connection-result', '✅ Connexion Supabase réussie');
+            } catch (error) {
+                showResult('connection-result', `❌ Erreur de connexion: ${error.message}`, true);
+            }
+        }
+
+        async function testUsersTable() {
+            try {
+                const { data, error } = await supabase.from('users').select('*').limit(1);
+                if (error) throw error;
+                showResult('users-result', `✅ Table users accessible. Structure: ${JSON.stringify(Object.keys(data[0] || {}))}`);
+            } catch (error) {
+                showResult('users-result', `❌ Erreur table users: ${error.message}`, true);
+            }
+        }
+
+        async function testFavoritesTable() {
+            try {
+                // Test 1: Voir si la table existe
+                const { data, error } = await supabase.from('favorites').select('*').limit(1);
+                if (error) throw error;
+                
+                let structure = 'Aucune donnée';
+                if (data && data.length > 0) {
+                    structure = JSON.stringify(Object.keys(data[0]), null, 2);
+                }
+                
+                showResult('favorites-result', `✅ Table favorites accessible.<br><strong>Structure:</strong><pre>${structure}</pre>`);
+                
+                // Test 2: Vérifier les colonnes spécifiques
+                const { data: testData, error: testError } = await supabase
+                    .from('favorites')
+                    .select('id, user_id, anime_id, anime_title, anime_image, added_at')
+                    .limit(1);
+                
+                if (testError) {
+                    showResult('favorites-result', `✅ Table accessible mais erreur avec colonnes spécifiques: ${testError.message}`, true);
+                } else {
+                    showResult('favorites-result', `✅ Toutes les colonnes requises sont présentes`);
+                }
+                
+            } catch (error) {
+                showResult('favorites-result', `❌ Erreur table favorites: ${error.message}`, true);
+            }
+        }
+
+        async function testWatchlistTable() {
+            try {
+                // Test 1: Voir si la table existe
+                const { data, error } = await supabase.from('watchlist').select('*').limit(1);
+                if (error) throw error;
+                
+                let structure = 'Aucune donnée';
+                if (data && data.length > 0) {
+                    structure = JSON.stringify(Object.keys(data[0]), null, 2);
+                }
+                
+                showResult('watchlist-result', `✅ Table watchlist accessible.<br><strong>Structure:</strong><pre>${structure}</pre>`);
+                
+                // Test 2: Vérifier les colonnes spécifiques
+                const { data: testData, error: testError } = await supabase
+                    .from('watchlist')
+                    .select('id, user_id, anime_id, anime_title, anime_image, added_at')
+                    .limit(1);
+                
+                if (testError) {
+                    showResult('watchlist-result', `✅ Table accessible mais erreur avec colonnes spécifiques: ${testError.message}`, true);
+                } else {
+                    showResult('watchlist-result', `✅ Toutes les colonnes requises sont présentes`);
+                }
+                
+            } catch (error) {
+                showResult('watchlist-result', `❌ Erreur table watchlist: ${error.message}`, true);
+            }
+        }
+
+        async function testAddToFavorites() {
+            try {
+                const userId = localStorage.getItem('userId');
+                if (!userId) {
+                    showResult('add-favorites-result', '❌ Aucun utilisateur connecté', true);
+                    return;
+                }
+
+                const testData = {
+                    user_id: userId,
+                    anime_id: 'test-anime-' + Date.now(),
+                    anime_title: 'Test Anime',
+                    anime_image: 'test-image.jpg'
+                };
+
+                const { data, error } = await supabase.from('favorites').insert([testData]).select();
+                if (error) throw error;
+                
+                showResult('add-favorites-result', `✅ Ajout aux favoris réussi. ID: ${data[0].id}`);
+                
+                // Nettoyer le test
+                await supabase.from('favorites').delete().eq('id', data[0].id);
+            } catch (error) {
+                showResult('add-favorites-result', `❌ Erreur ajout favoris: ${error.message}`, true);
+            }
+        }
+
+        async function testAddToWatchlist() {
+            try {
+                const userId = localStorage.getItem('userId');
+                if (!userId) {
+                    showResult('add-watchlist-result', '❌ Aucun utilisateur connecté', true);
+                    return;
+                }
+
+                const testData = {
+                    user_id: userId,
+                    anime_id: 'test-anime-' + Date.now(),
+                    anime_title: 'Test Anime',
+                    anime_image: 'test-image.jpg'
+                };
+
+                const { data, error } = await supabase.from('watchlist').insert([testData]).select();
+                if (error) throw error;
+                
+                showResult('add-watchlist-result', `✅ Ajout à la watchlist réussi. ID: ${data[0].id}`);
+                
+                // Nettoyer le test
+                await supabase.from('watchlist').delete().eq('id', data[0].id);
+            } catch (error) {
+                showResult('add-watchlist-result', `❌ Erreur ajout watchlist: ${error.message}`, true);
+            }
+        }
+
+        // Test automatique au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                document.body.innerHTML += '<div class="error">⚠️ Aucun utilisateur connecté. Veuillez vous connecter d\'abord.</div>';
+            } else {
+                document.body.innerHTML += `<div class="success">✅ Utilisateur connecté: ${localStorage.getItem('username')} (ID: ${userId})</div>`;
+            }
+        });
+    </script>
+</body>
+</html> 

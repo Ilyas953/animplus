@@ -662,4 +662,80 @@ margin-top: 100PX;
       font-size: 1rem; 
     }
   }
+
+/* Styles pour les boutons d'action des animes */
+.anime-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.grid-item:hover .anime-actions {
+  opacity: 1;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.action-btn:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+  transform: scale(1.1);
+}
+
+.favorite-btn {
+  color: #ff6b6b;
+}
+
+.favorite-btn:hover {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.watchlist-btn {
+  color: #4ecdc4;
+}
+
+.watchlist-btn:hover {
+  background-color: #4ecdc4;
+  color: white;
+}
+
+.action-btn i {
+  font-size: 14px;
+}
+
+/* Responsive pour les boutons d'action */
+@media (max-width: 768px) {
+  .anime-actions {
+    top: 5px;
+    right: 5px;
+    gap: 5px;
+  }
+  
+  .action-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .action-btn i {
+    font-size: 12px;
+  }
+}
   
