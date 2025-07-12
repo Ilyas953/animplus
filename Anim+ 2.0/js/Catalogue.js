@@ -90,123 +90,137 @@ searchInput.addEventListener('keydown', (e) => {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-  const filterBtn = document.getElementById('filterBtn');
-  const filterPanel = document.getElementById('filterPanel');
-  const filterOptions = document.querySelectorAll('.filter-option');
-  const searchInput = document.getElementById('searchInput');
-  const gridItems = document.querySelectorAll('.grid-item');
-  let timeout = null;
+const filters = {
+  genre: '',
+  language: '',
+  category: '',
+  year: '',
+  theme: ''
+};
+
+const filterElements = {
+  genre: document.getElementById('filter-genre'),
+  language: document.getElementById('filter-language'),
+  category: document.getElementById('filter-category'),
+  year: document.getElementById('filter-year'),
+  theme: document.getElementById('filter-theme')
+};
 
 
-  filterBtn.addEventListener('click', () => {
-    filterPanel.style.display = filterPanel.style.display === 'none' ? 'block' : 'none';
-  });
+function applyFilters() {
+  gridItems.forEach(item => {
+    const itemGenre = item.dataset.genre?.toLowerCase() || '';
+    const itemLang = item.dataset.language?.toLowerCase() || '';
+    const itemCat = item.dataset.category?.toLowerCase() || '';
+    const itemYear = item.dataset.year || '';
+    const itemThemes = item.dataset.theme?.toLowerCase().split(',') || [];
 
-  function getActiveFilters() {
-    const filters = {
-      genres: [],
-      categories: [],
-      languages: [],
-      years: []
-    };
+    const matchGenre = !filters.genre || itemGenre === filters.genre;
+    const matchLang = !filters.language || itemLang === filters.language;
+    const matchCat = !filters.category || itemCat === filters.category;
+    const matchYear = !filters.year || itemYear === filters.year;
+    const matchTheme = !filters.theme || itemThemes.includes(filters.theme);
 
-    filterOptions.forEach(input => {
-      if (input.checked) {
-        const val = input.value.toLowerCase();
-        if (['action', 'romance', 'fantasy', 'comedy', 'shonen', 'shojo', 'seinen'].includes(val)) filters.genres.push(val);
-        else if (['anime', 'serie', 'film'].includes(val)) filters.categories.push(val);
-        else if (['vf', 'vo'].includes(val)) filters.languages.push(val);
-        else if (!isNaN(val)) filters.years.push(val);
-      }
-    });
-
-    return filters;
-  }
-
-  function filterGrid() {
-    const searchText = searchInput.value.toLowerCase().trim();
-    const filters = getActiveFilters();
-
-    gridItems.forEach(item => {
-      const title = (item.dataset.title || '').toLowerCase();
-      const genre = (item.dataset.genre || '').toLowerCase();
-      const category = (item.dataset.category || '').toLowerCase();
-      const language = (item.dataset.language || '').toLowerCase();
-      const year = (item.dataset.year || '').toLowerCase();
-
-      const matchesSearch = searchText === '' || title.includes(searchText);
-
-      const matchesGenres = filters.genres.length === 0 || filters.genres.includes(genre);
-      const matchesCategory = filters.categories.length === 0 || filters.categories.includes(category);
-      const matchesLanguage = filters.languages.length === 0 || filters.languages.includes(language);
-      const matchesYear = filters.years.length === 0 || filters.years.includes(year);
-
-      if (matchesSearch && matchesGenres && matchesCategory && matchesLanguage && matchesYear) {
-        item.style.display = '';
-      } else {
-        item.style.display = 'none';
-      }
-    });
-
-    // Afficher les résultats
-    displayResults(matchedItems);
-    
-    // Mettre à jour le compteur
-    updateResultCount(matchedItems.length);
-  }
-
-  filterOptions.forEach(opt => opt.addEventListener('change', filterGrid));
-  searchInput.addEventListener('input', () => {
-    clearTimeout(timeout);
-    filterGrid();
-
-    const visibleItems = Array.from(gridItems).filter(i => i.style.display !== 'none');
-    if (visibleItems.length === 1) {
-      const exactTitle = visibleItems[0].dataset.title.toLowerCase();
-      const searchValue = searchInput.value.toLowerCase().trim();
-      if (exactTitle === searchValue) {
-        timeout = setTimeout(() => {
-          const link = visibleItems[0].querySelector('a');
-          if (link) window.location.href = link.href;
-        }, 1000);
-      }
+    if (matchGenre && matchLang && matchCat && matchYear && matchTheme) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
     }
   });
+}
 
+// Lier les filtres à la logique
+Object.keys(filterElements).forEach(key => {
+  filterElements[key].addEventListener('change', (e) => {
+    filters[key] = e.target.value.toLowerCase();
+    applyFilters();
+  });
+});
 
-  filterGrid();
+// Réinitialisation
+document.getElementById('reset-filters').addEventListener('click', () => {
+  Object.keys(filters).forEach(key => {
+    filters[key] = '';
+    filterElements[key].value = '';
+  });
+  applyFilters();
 });
 
 
- document.addEventListener('DOMContentLoaded', function() {
-    const yearSelect = document.getElementById('date');
-    const currentYear = new Date().getFullYear();
 
 
-    for (let year = 1990; year <= currentYear; year++) {
-      const option = document.createElement('option');
-      option.value = year.toString();
-      option.textContent = year;
-      yearSelect.appendChild(option);
-    }
-  });
 
-  document.getElementById('date').addEventListener('change', function() {
-    const selectedYear = this.value;
-    const gridItems = document.querySelectorAll('.grid-item');
 
-    gridItems.forEach(item => {
-      const itemYear = item.dataset.year;
 
-      if (selectedYear === 'all' || itemYear === selectedYear) {
-        item.style.display = 'block';
-      } else {
-        item.style.display = 'none';
-      }
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const ITEMS_PER_PAGE = 21;
+  let currentPage = 1;
+
+  const container = document.querySelector(".grid-container");
+  const items = Array.from(container.querySelectorAll(".grid-item"));
+  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+
+
+  const pagination = document.createElement("div");
+  pagination.className = "pagination-container";
+  container.parentNode.insertBefore(pagination, container.nextSibling);
+
+
+  function showPage(page) {
+    if (page < 1) page = 1;
+    if (page > totalPages) page = totalPages;
+    currentPage = page;
+
+
+    items.forEach((item, i) => {
+      item.style.display =
+        i >= (page - 1) * ITEMS_PER_PAGE && i < page * ITEMS_PER_PAGE
+          ? "block"
+          : "none";
     });
-  });
 
-  document.querySelector('.filter-btn').addEventListener('click', function() {
-    document.querySelector('.filter-panel').classList.toggle('open');
-  });
+    renderPagination();
+  }
+
+
+  function renderPagination() {
+    pagination.innerHTML = "";
+
+
+    const prevBtn = document.createElement("button");
+    prevBtn.className = "pagination-btn";
+    prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.addEventListener("click", () => showPage(currentPage - 1));
+    pagination.appendChild(prevBtn);
+
+
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.className = "pagination-btn";
+      btn.textContent = i;
+      if (i === currentPage) btn.classList.add("active");
+      btn.addEventListener("click", () => showPage(i));
+      pagination.appendChild(btn);
+    }
+
+    const nextBtn = document.createElement("button");
+    nextBtn.className = "pagination-btn";
+    nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.addEventListener("click", () => showPage(currentPage + 1));
+    pagination.appendChild(nextBtn);
+  }
+
+  showPage(currentPage);
+});

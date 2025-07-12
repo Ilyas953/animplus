@@ -59,112 +59,64 @@
 
 
 
-.filter-btn {
-  padding: 1.25rem 1.5rem; 
-  background-color: #5865F2;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  z-index: 99999;
-  color: white;
-  font-size: 1rem;
-  box-shadow: 0 4px 10px #5865f26c;
-  transition: background-color 0.3s ease;
-  flex-shrink: 0; 
-  margin-left: 0.5rem;
-  height: 48px;
-  box-sizing: border-box;
-  display: inline-flex;      
-  align-items: center;        
-  justify-content: center;   
-    justify-content: center;
 
+
+
+
+
+.filter-bar {
   display: flex;
-}
-
-.filter-btn i {
-  margin-left: 0.5rem;
-  font-size: 1.2rem;
-  vertical-align: middle; 
-}
-
-
-.filter-panel {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
-  padding-top: 0;
-  padding-bottom: 0;
-  pointer-events: none;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px auto;   
+  align-items: left;
+  justify-content: left;   
+  max-width: 94%;
 }
 
 
-.filter-panel.open {
-  max-height: 600px; 
-  opacity: 1;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  pointer-events: auto;
+.filter-bar select,
+.filter-bar button {
+  padding: 12px 20px;
+  border: 1px solid #1a1919;
+  font-size: 14px;
+  border-radius: 12PX;
+    box-shadow: 0 6px 18px #e7e7e725; 
+  color: white;
+  background-color: #161616;
+  cursor: pointer;
 }
 
+.filter-bar button {
+  background-color: #5865F2;
+  color: white;
+  border: none;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
 
-
-
-
-.filter-btn:hover {
+.filter-bar button:hover {
   background-color: #4e5ad4;
 }
 
-.filter-panel {
-  position: relative;  
-  margin-top: 8px;     
-  background-color: #292929;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  color: white;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  box-sizing: border-box;
-  z-index: 10000;      
+
+@media (max-width: 768px) {
+  .filter-bar {
+    justify-content: center !important;
+    align-items: center !important;
+  }
 }
 
 
 
 
-.checkbox-row {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-
-.checkbox-row label {
-  cursor: pointer;
-  user-select: none;
-}
 
 
-hr {
-  border: none;
-  border-top: 1px solid #444;
-  margin: 1rem 0;
-}
 
 
-.filter-panel h4 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.6rem;
-  color: #f0f0f0; 
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  text-align: left;
 
-  padding-bottom: 0.3rem;
-}
+
+
 
 
 
@@ -225,27 +177,6 @@ hr {
 
 
 
-.filter-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; 
-  gap: 8px;
-}
-
-
-#date {
-  display: block;
-  margin-left: 0;
-  margin-right: auto;
-  max-width: 150px;
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-
 
 
 
@@ -268,7 +199,6 @@ hr {
 
 @media (max-width: 768px) {
 
-  .filter-btn,
   .search-input {
     box-sizing: border-box;
     width: 100%;
@@ -277,8 +207,9 @@ hr {
   }
 
 
+
   .hero-image {
-    height: 600px;
+    height: 60vh; /* 60% de la hauteur de la fenêtre */
   }
 
   .hero-image img {
@@ -323,53 +254,10 @@ hr {
   }
 
 
-.filter-panel {
-  padding: 0.75rem 1rem;
-  max-width: 100%;
-  margin: 0 auto;
-  max-height: 350px;
-  overflow-y: auto;
-  scrollbar-width: thin; 
-  scrollbar-color: #888 #f1f1f1; 
-}
-
-
-.filter-panel::-webkit-scrollbar {
-  width: 8px;
-}
-
-.filter-panel::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.filter-panel::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 10px;
-}
-
-.filter-panel::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
 
 
 
 
-  .filter-panel h4 {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .checkbox-row {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  #date {
-    width: 100%;
-    max-width: none;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-  }
 
 }
 
@@ -739,3 +627,51 @@ margin-top: 100PX;
   }
 }
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.pagination-container {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.pagination-btn {
+  margin: 0 5px;
+  padding: 12px 20px;
+  border: none;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination-btn:hover {
+  background-color: #5b6eae;
+  color: white;
+  transform: scale(1.05);
+}
+
+.pagination-btn.active {
+  background-color: #4a67c7;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}

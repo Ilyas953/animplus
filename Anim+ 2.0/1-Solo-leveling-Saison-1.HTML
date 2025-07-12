@@ -19,6 +19,7 @@
     <!-- Supabase -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="js/connexion.js"></script>
+    <script src="js/table-adapter.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -59,6 +60,7 @@
 
 </head>
 <body>
+ 
 
 
 
@@ -71,9 +73,6 @@
 
 
 
-
-
-  
 
 
 <div id="login-popup" class="popup hidden">
@@ -158,12 +157,17 @@ closeBtnn.addEventListener('click', () => {
 
 </SCript>
 
- 
 
 
 
 
-  
+
+
+
+
+
+
+
       <div class="navbar-bottom">
 
         <a class='nav-item active' href='accueil.html' id='home'>
@@ -177,19 +181,40 @@ closeBtnn.addEventListener('click', () => {
            <i class="fa-solid fa-calendar-days"></i>
         </a>
 
+            <a href="Manga.html" class="nav-item" id="manga">
+        <i class="fas fa-book-open"></i> 
+    </a>
+
+    <a href="News.html" class="nav-item" id="news">
+        <i class="fas fa-newspaper"></i> 
+    </a>
+
+
 
     </div>
+    
+
+
+
+
+
+
+
 
 
 <header>
     <nav class="navbar">
+            <div class="container">
         <div class="logo">
             <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
         </div>
-    <ul class="menu">
-          <li><a href="Accueil.html"  >Accueil</a></li>
+
+          <ul class="menu">
+          <li><a href="Accueil.html" >Accueil</a></li>
             <li><a href="Catalogue.html" >Catalogue</a></li>
             <li><a href="Planning.html">Planning</a></li>
+           <li><a href="Manga.html">Manga</a></li>
+            <li><a href="News.html">News</a></li>
         </ul>
 
 
@@ -204,16 +229,14 @@ closeBtnn.addEventListener('click', () => {
     </a>
 
     <a href="/connexion">
-        <button class="btn-login">Connexion</button>
+     <button id="login-button" class="btn-login" onclick="openPopup()">Connexion</button>
     </a>
 </div>
 
-
-
+</div>
     </nav>
 
 </header>
-
 
 
 
@@ -241,14 +264,28 @@ closeBtnn.addEventListener('click', () => {
       </p>
 
 
-<a href="#" id="hero-btn" class="hero-btn">
-  <i class='bx bx-play'></i>
-  <span>Regarder</span>
-</a>
+<div class="hero-buttons">
+
+  <a href="#" id="hero-btn" class="hero-btn">
+    <i class='bx bx-play'></i>
+    <span>Regarder</span>
+  </a>
+
+<button id="add-to-favorites" class="hero-btnn" title="Ajouter aux favoris">
+  <i class='bx bx-heart'></i>
+</button>
+
+<button id="add-to-watchlist" class="hero-btnn" title="Ajouter à la Watchlist">
+  <i class='bx bx-bookmark'></i>
+</button>
+
+
+</div>
 
 
     </div>
   </div>
+
 </div>
 
 
@@ -788,6 +825,120 @@ player.on('ended', () => {
     <script src="js/navbar.js"></script>
    <script src="js/episodes.js"></script>
     <script src="js/Details.js"></script>
+
+    <script>
+      // Données de l'anime Solo Leveling
+      const animeData = {
+        id: "solo-leveling-s1",
+        anime_id: "solo-leveling-s1", // Ajout pour compatibilité
+        title: "Solo Leveling",
+        image: "assets/img/affiche/affiche solo leveling.jpg",
+        genre: "Action · VO · Fantastique",
+        season: "Saison 1",
+        episodes: 12,
+        synopsis: "Après avoir été mortellement blessé lorsqu'il est tombé par hasard sur un double donjon caché, Jinwoo est miraculeusement rescapé. Au bord de la mort, il entrevoit une quête et saisit une opportunité qui lui permet dès lors de gagner en puissance très rapidement."
+      };
+
+      // Gestion des boutons favoris et watchlist
+      document.addEventListener('DOMContentLoaded', async () => {
+        const addToFavoritesBtn = document.getElementById('add-to-favorites');
+        const addToWatchlistBtn = document.getElementById('add-to-watchlist');
+        
+        // Vérifier si l'utilisateur est connecté
+        const userId = localStorage.getItem('userId');
+        
+        if (!userId) {
+          // Si pas connecté, changer le comportement des boutons
+          addToFavoritesBtn.onclick = () => {
+            alert('Vous devez être connecté pour ajouter aux favoris');
+          };
+          addToWatchlistBtn.onclick = () => {
+            alert('Vous devez être connecté pour ajouter à votre liste');
+          };
+          return;
+        }
+
+        // Vérifier si l'anime est déjà dans les favoris/watchlist
+        const isInFavorites = await tableAdapter.isInFavorites(userId, animeData.id);
+        const isInWatchlist = await tableAdapter.isInWatchlist(userId, animeData.id);
+
+        // Mettre à jour l'apparence des boutons
+        updateButtonAppearance(addToFavoritesBtn, isInFavorites, 'favorites');
+        updateButtonAppearance(addToWatchlistBtn, isInWatchlist, 'watchlist');
+
+        // Gestion du bouton favoris
+        addToFavoritesBtn.onclick = async () => {
+          try {
+            const currentStatus = await tableAdapter.isInFavorites(userId, animeData.id);
+            
+            if (currentStatus) {
+              // Retirer des favoris
+              await tableAdapter.removeFromFavorites(userId, animeData.id);
+              updateButtonAppearance(addToFavoritesBtn, false, 'favorites');
+              alert('Anime retiré des favoris');
+            } else {
+              // Ajouter aux favoris
+              await tableAdapter.addToFavorites(userId, animeData);
+              updateButtonAppearance(addToFavoritesBtn, true, 'favorites');
+              alert('Anime ajouté aux favoris !');
+            }
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('Erreur: ' + error.message);
+          }
+        };
+
+        // Gestion du bouton watchlist
+        addToWatchlistBtn.onclick = async () => {
+          try {
+            const currentStatus = await tableAdapter.isInWatchlist(userId, animeData.id);
+            
+            if (currentStatus) {
+              // Retirer de la watchlist
+              await tableAdapter.removeFromWatchlist(userId, animeData.id);
+              updateButtonAppearance(addToWatchlistBtn, false, 'watchlist');
+              alert('Anime retiré de votre liste');
+            } else {
+              // Ajouter à la watchlist
+              await tableAdapter.addToWatchlist(userId, animeData);
+              updateButtonAppearance(addToWatchlistBtn, true, 'watchlist');
+              alert('Anime ajouté à votre liste !');
+            }
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('Erreur: ' + error.message);
+          }
+        };
+      });
+
+      // Fonction pour mettre à jour l'apparence des boutons
+      function updateButtonAppearance(button, isAdded, type) {
+        const icon = button.querySelector('i');
+        const text = button.querySelector('span');
+        
+        if (isAdded) {
+          if (type === 'favorites') {
+            icon.className = 'bx bxs-heart';
+            text.textContent = 'Favori';
+            button.style.backgroundColor = '#ff6b6b';
+          } else if (type === 'watchlist') {
+            icon.className = 'bx bxs-check';
+            text.textContent = 'Ajouté';
+            button.style.backgroundColor = '#4ecdc4';
+          }
+        } else {
+          if (type === 'favorites') {
+            icon.className = 'bx bx-heart';
+            text.textContent = 'Favoris';
+            button.style.backgroundColor = '#4e5ad4';
+          } else if (type === 'watchlist') {
+            icon.className = 'bx bx-plus';
+            text.textContent = 'À regarder';
+            button.style.backgroundColor = '#4e5ad4';
+          }
+        }
+      }
+    </script>
 
     </body>
 </html>

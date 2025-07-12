@@ -23,3 +23,15 @@
 
 
 
+// Tableau des jours en français, en accord avec tes id/data-day
+const jours = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+
+// On récupère le jour actuel
+const aujourdHui = new Date();
+const jourActuel = jours[aujourdHui.getDay()];  // ex: "Mardi"
+
+// On sélectionne la div correspondant au jour actuel et on ajoute la classe "today"
+const dayCard = document.querySelector(`.day-card[data-day="${jourActuel}"]`);
+if(dayCard) {
+  dayCard.classList.add("today");
+}

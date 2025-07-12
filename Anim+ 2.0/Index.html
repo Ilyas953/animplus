@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/connexion.css">
 
     <link rel="stylesheet" href="css/Landingpage.css">
-
+    <link rel="stylesheet" href="css/botanime.css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -88,6 +88,15 @@
            <i class="fa-solid fa-calendar-days"></i>
         </a>
 
+          <a href="Manga.html" class="nav-item" id="manga">
+        <i class="fas fa-book-open"></i> 
+    </a>
+
+    <a href="News.html" class="nav-item" id="news">
+        <i class="fas fa-newspaper"></i> 
+    </a>
+
+
 
     </div>
     
@@ -98,6 +107,7 @@
 
 <header>
     <nav class="navbar">
+                  <div class="container">
         <div class="logo">
             <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
         </div>
@@ -106,6 +116,8 @@
           <li><a href="Accueil.html" class="active" >Accueil</a></li>
             <li><a href="Catalogue.html" >Catalogue</a></li>
             <li><a href="Planning.html">Planning</a></li>
+           <li><a href="Manga.html">Manga</a></li>
+            <li><a href="News.html">News</a></li>
         </ul>
 
 
@@ -123,7 +135,7 @@
 </div>
 
 
-
+</div>
     </nav>
 
 </header>
@@ -736,6 +748,93 @@ planningBtn.addEventListener('click', () => {
 
 
 
+<section id="anime-recommender">
+
+  
+
+
+  <h2>Trouve un anime qui te correspond !</h2>
+  <p id="help-message">
+    Si tu galères à trouver un anime, utilise notre bot <strong>Anim+</strong> pour plus de recommandations !
+  </p>
+
+  <div id="anime-bot">
+ 
+  <div id="bot-response" aria-live="polite" role="region">
+ <div id="anime-bot-message">
+    Je suis le bot Anim+ ! Dis-moi ce que tu veux et je t’aide 
+  </div>
+  
+  </div>
+
+  <input 
+    id="user-message" 
+    type="text" 
+    placeholder="Pose-moi une question, ex : recommande-moi un anime romantique" 
+    aria-label="Message utilisateur"
+  />
+</div>
+
+
+
+  <form id="filter-form">
+    <label for="main-genre">Genre principal :</label>
+    <select id="main-genre" name="main-genre">
+      <option value="">--Choisis un genre principal--</option>
+      <option value="shonen">Shonen</option>
+      <option value="seinen">Seinen</option>
+      <option value="shojo">Shojo</option>
+      <option value="josei">Josei</option>
+    </select>
+
+    <label for="theme">Thème :</label>
+    <select id="theme" name="theme">
+      <option value="">--Choisis un thème--</option>
+      <option value="action">Action</option>
+      <option value="comedy">Comédie</option>
+      <option value="fantasy">Fantasy</option>
+      <option value="drama">Drame</option>
+      <option value="romance">Romance</option>
+    </select>
+
+    <label for="language">Langue :</label>
+    <select id="language" name="language">
+      <option value="">--Choisis la langue--</option>
+      <option value="vo">VO</option>
+      <option value="vf">VF</option>
+    </select>
+
+    <button type="submit">Trouver mon anime</button>
+  </form>
+
+<div id="recommendation-container" style="display: flex; gap: 20px;">
+  <div id="recommendation-text"></div>
+  <div id="recommendation-result"></div>
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -975,6 +1074,15 @@ planningBtn.addEventListener('click', () => {
 
 
 
+
+
+
+
+
+
+
+
+
 <footer class="custom-footer">
   <div class="footer-content">
     <div class="footer-left">
@@ -1031,7 +1139,7 @@ planningBtn.addEventListener('click', () => {
 
 
 
-
+    <script src="js/botanim+.js"></script>
     <script src="js/sliderhome.js"></script>
      <script src="js/navbar.js"></script>
     <script src="js/Planning.js"></script>

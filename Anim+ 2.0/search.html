@@ -18,15 +18,17 @@
     <!-- Supabase -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="js/connexion.js"></script>
+    <script src="js/table-adapter.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Vérifier si l'utilisateur est connecté
             const userId = localStorage.getItem('userId');
+            const username = localStorage.getItem('username');
             const actionsDiv = document.querySelector('.actions');
             
             if (userId) {
-                // Si l'utilisateur est connecté, afficher le bouton profil
+                // Si l'utilisateur est connecté, afficher le bouton avec le nom d'utilisateur
                 actionsDiv.innerHTML = `
                     <a href="search.html">
                         <button class="btn-box-icon">
@@ -35,7 +37,7 @@
                         </button>
                     </a>
                     <a href="profile.html">
-                        <button class="btn-login">Profil</button>
+                        <button class="btn-login">${username}</button>
                     </a>
                 `;
             } else {
@@ -65,15 +67,171 @@
 
 
 
+
+
+
+
+<div id="login-popup" class="popup hidden">
+<div class="popup-content">
+      <button id="close-popup" aria-label="Fermer" class="close-btnn">&times;</button>
+  <div class="popup-header">
+    
+    <h2 id="popup-title" class="popup-title">Connecte-toi à ton compte</h2>
+
+  </div>
+
+    <select id="mode-select" onchange="toggleMode()" style="display:none;">
+      <option value="login">Connexion</option>
+      <option value="register">Tu n'as toujours pas de compte ?</option>
+    </select>
+
+    <div id="login-form">
+      <input type="text" id="login-username" placeholder="Pseudo" autocomplete="username">
+
+      <h3 class="input-subtitle">Entrez votre code secret</h3>
+
+      <input type="password" id="login-password" placeholder="Code secret" autocomplete="current-password">
+
+      <button onclick="submitLogin()" class="btn-submit">Valider</button>
+
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-register" class="link-register">Tu n'as toujours pas de compte ?</a>
+      </div>
+    </div>
+
+    <div id="register-step1" class="hidden">
+      <input type="text" id="register-username" placeholder="Pseudo" autocomplete="username">
+
+      <button onclick="goToStep2()" class="btn-submit">Suivant</button>
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-login" class="link-login">Retour Connexion</a>
+      </div>
+    </div>
+
+    <div id="register-step2" class="hidden">
+      <h3>Choisissez votre image de profil</h3>
+      <div id="profile-pictures" class="profile-pictures-container"></div>
+      <button onclick="goToStep3()" disabled id="profile-next-btn" class="btn-submit">Suivant</button>
+    </div>
+
+    <div id="register-step3" class="hidden">
+      <select id="anime-select" onchange="updateCharacterOptions()">
+        <option value="">Choisissez un anime</option>
+        <option value="snk">Shingeki no Kyojin</option>
+        <option value="onepiece">One Piece</option>
+        <option value="bleach">Bleach</option>
+        <option value="mha">My Hero Academia</option>
+        <option value="naruto">Naruto</option>
+        <option value="dragonball">Dragon Ball</option>
+      </select>
+      
+      <h3>Choisissez 4 personnages de votre anime préféré</h3>
+      <select id="character-select-1" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-2" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-3" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-4" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      
+      <div id="character-error" style="display: none; color: red; margin-top: 10px;">
+        Veuillez sélectionner exactement 4 personnages différents
+      </div>
+      
+      <button onclick="submitRegister()" class="btn-submit">Valider</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="notification" class="notification hidden"></div> 
+
+
+
+<SCript>
+const popup = document.getElementById('login-popup');
+const closeBtnn = document.getElementById('close-popup');
+
+popup.addEventListener('click', (event) => {
+  if (event.target === popup) {
+    popup.classList.add('hidden');
+  }
+});
+
+closeBtnn.addEventListener('click', () => {
+  popup.classList.add('hidden');
+});
+
+</SCript>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="navbar-bottom">
+
+        <a class='nav-item ' href='accueil.html' id='home'>
+            <i class='bx bx-home-alt-2'></i>
+            
+        </a>
+        <a href="Catalogue.html" class="nav-item active " id="bible">
+            <i class='bx bx-collection'></i>
+        </a>
+        <a href="Planning.html" class="nav-item " id="music">
+           <i class="fa-solid fa-calendar-days"></i>
+        </a>
+
+
+            <a href="Manga.html" class="nav-item" id="manga">
+        <i class="fas fa-book-open"></i> 
+    </a>
+
+    <a href="News.html" class="nav-item" id="news">
+        <i class="fas fa-newspaper"></i> 
+    </a>
+
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
 <header>
     <nav class="navbar">
+                  <div class="container">
+
+      
         <div class="logo">
             <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
         </div>
         <ul class="menu">
           <li><a href="Accueil.html"  >Accueil</a></li>
-            <li><a href="Catalogue.html"  >Catalogue</a></li>
+            <li><a href="Catalogue.html"  class="active" >Catalogue</a></li>
             <li><a href="Planning.html">Planning</a></li>
+           <li><a href="Manga.html">Manga</a></li>
+            <li><a href="News.html">News</a></li>
         </ul>
 
         
@@ -92,7 +250,7 @@
 </div>
 
 
-
+</div>
     </nav>
 
 </header>
@@ -107,68 +265,20 @@
 <div class="hero-image">
   <img src="assets/font catalogue animplus.png" alt="Image hero" />
   <div class="hero-text">
-    <h1><i class='bx bx-search'></i> Recherche</h1>
+
+
+
+  <h1><i class='bx bx-search'></i> Recherche</h1>
     <p> Nous vous offrons une sélection d'options pour répondre à vos besoins. Explorez notre contenu et trouvez ce qui vous intéresse ! </p>
+ 
  
     
 <div class="search-section">
   <input type="text" id="searchInput" placeholder="Rechercher un anime..." class="search-input" />
-<button id="filterBtn" class="filter-btn">   Filtres  <i class="fas fa-filter" ></i>  </button>
 
 
-</div>
-
-
-<div id="filterPanel" class="filter-panel" style="display: none;">
-
-  <h2>Filtrer les résultats</h2>
-
-  <h4>Filtrer par :</h4>
-  <div class="checkbox-row">
-    <label><input type="checkbox" class="filter-option" value="action"> Action</label>
-    <label><input type="checkbox" class="filter-option" value="romance"> Romance</label>
-    <label><input type="checkbox" class="filter-option" value="fantasy"> Fantasy</label>
-    <label><input type="checkbox" class="filter-option" value="comedy"> Comédie</label>
-  </div>
-
-  <hr>
-
-  <h4>Genre :</h4>
-  <div class="checkbox-row">
-    <label><input type="checkbox" class="filter-option" value="shonen"> Shonen</label>
-    <label><input type="checkbox" class="filter-option" value="shojo"> Shojo</label>
-    <label><input type="checkbox" class="filter-option" value="seinen"> Seinen</label>
-  </div>
-
-  <hr>
-
-  <h4>Catégorie :</h4>
-  <div class="checkbox-row">
-    <label><input type="checkbox" class="filter-option" value="anime"> Anime</label>
-    <label><input type="checkbox" class="filter-option" value="serie"> Série</label>
-    <label><input type="checkbox" class="filter-option" value="film"> Film</label>
-  </div>
-
-  <hr>
-
-  <h4>Langue :</h4>
-  <div class="checkbox-row">
-    <label><input type="checkbox" class="filter-option" value="vf"> VF</label>
-    <label><input type="checkbox" class="filter-option" value="vo"> VO</label>
-  </div>
-
-  <hr>
-
-<div class="filter-row">
-  <label for="date">Année :</label>
-  <select id="date">
-    <option value="all">ALL</option>
-  </select>
-</div>
 
 </div>
-
-
 
 
 
@@ -186,11 +296,61 @@
 
 
 
+<div class="filter-bar">
+  <select id="filter-genre">
+    <option value="">Genre</option>
+    <option value="shonen">Shonen</option>
+    <option value="shojo">Shojo</option>
+    <option value="seinen">Seinen</option>
+  </select>
+
+  <select id="filter-language">
+    <option value="">Langue</option>
+    <option value="vo">VO</option>
+    <option value="vf">VF</option>
+  </select>
+
+  <select id="filter-category">
+    <option value="">Catégorie</option>
+    <option value="anime">Anime</option>
+    <option value="serie">Série</option>
+    <option value="film">Film</option>
+  </select>
+
+  <select id="filter-year">
+    <option value="">Année</option>
+    <option value="2002">2002</option>
+    <option value="2011">2011</option>
+    <option value="2013">2013</option>
+    <option value="2018">2018</option>
+    <option value="2020">2020</option>
+    <option value="2021">2021</option>
+    <option value="2024">2024</option>
+  </select>
+
+
+  <select id="filter-theme">
+    <option value="">Thème</option>
+    <option value="action">Action</option>
+    <option value="romance">Romance</option>
+    <option value="fantasy">Fantasy</option>
+    <option value="comedy">Comédie</option>
+  </select>
+
+  <button id="reset-filters">Réinitialiser</button>
+</div>
 
 
 
     <div class="grid-container">
-        <div class="grid-item" data-episode-url="" data-title="Naruto Shippuden" data-genre="shonen" data-category="serie" data-language="vo" data-year="2011">
+
+
+
+      
+
+
+
+        <div class="grid-item" data-title="Naruto Shippuden" data-genre="shonen" data-category="serie"     data-theme="action,comedy"  data-language="vo" data-year="2011" data-anime-id="naruto-shippuden">
           <a href="Lecteur.html">
             <img src="assets/img/affiche/Naruto AFFICHE.jpg" alt="Image 1">
             <div class="image-title-container">
@@ -198,12 +358,20 @@
               <button class="tag-btn">VO | SERIE</button>
             </div>
           </a>
+          <div class="anime-actions">
+            <button class="action-btn favorite-btn" onclick="addToFavorites('naruto-shippuden', 'Naruto Shippuden', 'assets/img/affiche/Naruto AFFICHE.jpg')" title="Ajouter aux favoris">
+              <i class="fas fa-heart"></i>
+            </button>
+            <button class="action-btn watchlist-btn" onclick="addToWatchlist('naruto-shippuden', 'Naruto Shippuden', 'assets/img/affiche/Naruto AFFICHE.jpg')" title="Ajouter à ma liste">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
         </div>
           
 
           
 
-        <div class="grid-item" data-title="My Hero Academia" data-genre="shonen" data-category="Série" data-language="vf" data-year="2013">
+        <div class="grid-item" data-title="My Hero Academia"  data-genre="shonen"     data-theme="action,fantasy"    data-category="Série" data-language="vf" data-year="2013" data-anime-id="my-hero-academia">
             <a href="https://exemple.com/2">
                 <img src="assets/img/affiche/affiche mha.jpg" alt="Image 2">
                 <div class="image-title-container">
@@ -211,6 +379,14 @@
                       <button class="tag-btn">  VO |  SERIE</button>
                 </div>
             </a>
+            <div class="anime-actions">
+              <button class="action-btn favorite-btn" onclick="addToFavorites('my-hero-academia', 'My Hero Academia', 'assets/img/affiche/affiche mha.jpg')" title="Ajouter aux favoris">
+                <i class="fas fa-heart"></i>
+              </button>
+              <button class="action-btn watchlist-btn" onclick="addToWatchlist('my-hero-academia', 'My Hero Academia', 'assets/img/affiche/affiche mha.jpg')" title="Ajouter à ma liste">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
         </div>
 
 

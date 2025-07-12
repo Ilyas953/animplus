@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anim+</title>
+    <link rel="stylesheet" href="css/News.css">
+    <link rel="stylesheet" href="css/navbar & header.css">
+    <link rel="stylesheet" href="css/body.Css">
+    <link rel="stylesheet" href="css/Footer.css">
+
+
+
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Supabase -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/connexion.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier si l'utilisateur est connecté
+            const userId = localStorage.getItem('userId');
+            const username = localStorage.getItem('username');
+            const actionsDiv = document.querySelector('.actions');
+            
+            if (userId) {
+                // Si l'utilisateur est connecté, afficher le bouton avec le nom d'utilisateur
+                actionsDiv.innerHTML = `
+                    <a href="search.html">
+                        <button class="btn-box-icon">
+                            <i class='bx bx-search'></i>
+                            Recherche
+                        </button>
+                    </a>
+                    <a href="profile.html">
+                        <button class="btn-login">${username}</button>
+                    </a>
+                `;
+            } else {
+                // Si l'utilisateur n'est pas connecté, afficher le bouton connexion
+                actionsDiv.innerHTML = `
+                    <a href="search.html">
+                        <button class="btn-box-icon">
+                            <i class='bx bx-search'></i>
+                            Recherche
+                        </button>
+                    </a>
+                    <a href="login.html">
+                        <button class="btn-login">Connexion</button>
+                    </a>
+                `;
+            }
+        });
+    </script>
+
+</head>
+<body>
+ 
+
+<button id="scrollToTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">
+  <i class='bx bx-chevron-up'></i>
+</button>
+
+
+
+
+
+
+
+
+
+
+<div id="login-popup" class="popup hidden">
+<div class="popup-content">
+      <button id="close-popup" aria-label="Fermer" class="close-btnn">&times;</button>
+  <div class="popup-header">
+    
+    <h2 id="popup-title" class="popup-title">Connecte-toi à ton compte</h2>
+
+  </div>
+
+    <select id="mode-select" onchange="toggleMode()" style="display:none;">
+      <option value="login">Connexion</option>
+      <option value="register">Tu n'as toujours pas de compte ?</option>
+    </select>
+
+    <div id="login-form">
+      <input type="text" id="login-username" placeholder="Pseudo" autocomplete="username">
+
+      <h3 class="input-subtitle">Entrez votre code secret</h3>
+
+      <input type="password" id="login-password" placeholder="Code secret" autocomplete="current-password">
+
+      <button onclick="submitLogin()" class="btn-submit">Valider</button>
+
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-register" class="link-register">Tu n'as toujours pas de compte ?</a>
+      </div>
+    </div>
+
+    <div id="register-step1" class="hidden">
+      <input type="text" id="register-username" placeholder="Pseudo" autocomplete="username">
+
+      <button onclick="goToStep2()" class="btn-submit">Suivant</button>
+      <div style="text-align: right; margin-top: 5px;">
+        <a href="#" id="switch-to-login" class="link-login">Retour Connexion</a>
+      </div>
+    </div>
+
+    <div id="register-step2" class="hidden">
+      <h3>Choisissez votre image de profil</h3>
+      <div id="profile-pictures" class="profile-pictures-container"></div>
+      <button onclick="goToStep3()" disabled id="profile-next-btn" class="btn-submit">Suivant</button>
+    </div>
+
+    <div id="register-step3" class="hidden">
+      <select id="anime-select" onchange="updateCharacterOptions()">
+        <option value="">Choisissez un anime</option>
+        <option value="snk">Shingeki no Kyojin</option>
+        <option value="onepiece">One Piece</option>
+        <option value="bleach">Bleach</option>
+        <option value="mha">My Hero Academia</option>
+        <option value="naruto">Naruto</option>
+        <option value="dragonball">Dragon Ball</option>
+      </select>
+      
+      <h3>Choisissez 4 personnages de votre anime préféré</h3>
+      <select id="character-select-1" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-2" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-3" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      <select id="character-select-4" disabled>
+        <option value="">Choisissez un personnage</option>
+      </select>
+      
+      <div id="character-error" style="display: none; color: red; margin-top: 10px;">
+        Veuillez sélectionner exactement 4 personnages différents
+      </div>
+      
+      <button onclick="submitRegister()" class="btn-submit">Valider</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="notification" class="notification hidden"></div> 
+
+
+
+<script>
+const popup = document.getElementById('login-popup');
+const closeBtnn = document.getElementById('close-popup');
+
+popup.addEventListener('click', (event) => {
+  if (event.target === popup) {
+    closePopup();
+  }
+});
+
+closeBtnn.addEventListener('click', () => {
+  closePopup();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+      <div class="navbar-bottom">
+
+        <a class='nav-item ' href='accueil.html' id='home'>
+            <i class='bx bx-home-alt-2'></i>
+            
+        </a>
+        <a href="Catalogue.html" class="nav-item " id="bible">
+            <i class='bx bx-collection'></i>
+        </a>
+        <a href="Planning.html" class="nav-item " id="music">
+           <i class="fa-solid fa-calendar-days"></i>
+        </a>
+
+            <a href="Manga.html" class="nav-item" id="manga">
+        <i class="fas fa-book-open"></i> 
+    </a>
+
+    <a href="News.html" class="nav-item active" id="news">
+        <i class="fas fa-newspaper"></i> 
+    </a>
+
+
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+<header>
+    <nav class="navbar">
+                  <div class="container">
+        <div class="logo">
+            <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
+        </div>
+        <ul class="menu">
+          <li><a href="Accueil.html" >Accueil</a></li>
+            <li><a href="Catalogue.html" >Catalogue</a></li>
+            <li><a href="Planning.html" >Planning</a></li>
+           <li><a href="Manga.html">Manga</a></li>
+            <li><a href="News.html" class="active">News</a></li>
+        </ul>
+
+        
+      
+<div class="actions">
+    <a href="search.html">
+        <button class="btn-box-icon">
+            <i class='bx bx-search'></i>
+            Recherche
+        </button>
+    </a>
+
+    <a href="/connexion">
+        <button class="btn-login">Connexion</button>
+    </a>
+</div>
+
+
+</div>
+    </nav>
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="news-section" id="newsSection"></section>
+
+<div id="pagination" class="pagination-container"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="custom-footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <h3 class="footer-title">
+        <i class='bx bx-info-circle'></i> À propos
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+
+    <div class="footer-right">
+      <h3 class="footer-title">
+        <i class='bx bx-file'></i> Informations
+      </h3>
+      <p class="footer-text">
+        Anim+ n'héberge aucun fichier, mais propose des liens vers des services tiers.
+        Les questions juridiques doivent être traitées avec les hébergeurs et les fournisseurs de fichiers.
+        Anim+ n'est pas responsable des fichiers multimédias diffusés par les fournisseurs de vidéos.
+      </p>
+    </div>
+  </div>
+
+
+<div class="footer-bottom">
+  <div class="social-links">
+    <a href="" target="_blank" aria-label="Discord">
+      <i class="fa-brands fa-discord"></i>
+    </a>
+
+    <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+      <i class="fa-brands fa-twitter"></i>
+    </a>
+
+  </div>
+  <p class="creator-text">Anim+ créé par   AnimPluscorp © 2025</p>
+</div>
+
+
+</footer>
+
+
+
+
+
+    <script src="js/news.js"></script>
+    <script src="js/navbar.js"></script>
+   <script src="js/Planning.js"></script>
+   <script src="js/btnup.js"></script>
+</body>
+</html>

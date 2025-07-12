@@ -145,3 +145,13 @@ const initSliderrs = () => {
 };
 
 window.addEventListener("load", initSliderrs);
+
+
+
+
+
+
+
+
+
+

@@ -167,7 +167,7 @@ closeBtnn.addEventListener('click', () => {
 
 
 
-  
+
       <div class="navbar-bottom">
 
         <a class='nav-item active' href='accueil.html' id='home'>
@@ -183,15 +183,25 @@ closeBtnn.addEventListener('click', () => {
 
 
     </div>
+    
+
+
+
+
+
+
+
 
 
 <header>
     <nav class="navbar">
+            <div class="container">
         <div class="logo">
             <img src="assets/logo Anim+ SANS FOND.png" alt="Anim+ Logo">
         </div>
-    <ul class="menu">
-          <li><a href="Accueil.html"  >Accueil</a></li>
+
+          <ul class="menu">
+          <li><a href="Accueil.html" >Accueil</a></li>
             <li><a href="Catalogue.html" >Catalogue</a></li>
             <li><a href="Planning.html">Planning</a></li>
         </ul>
@@ -207,17 +217,14 @@ closeBtnn.addEventListener('click', () => {
         </button>
     </a>
 
-    <a href="/connexion">
-        <button class="btn-login">Connexion</button>
-    </a>
+    <button id="login-button" class="btn-login" onclick="openPopup()">Connexion</button>
 </div>
 
 
-
+</div>
     </nav>
 
 </header>
-
 
 
 
@@ -246,23 +253,27 @@ closeBtnn.addEventListener('click', () => {
 
 
 <div class="hero-buttons">
+
   <a href="#" id="hero-btn" class="hero-btn">
     <i class='bx bx-play'></i>
     <span>Regarder</span>
   </a>
-  <button id="add-to-favorites" class="hero-btn">
-    <i class='bx bx-heart'></i>
-    <span>Favoris</span>
-  </button>
-  <button id="add-to-watchlist" class="hero-btn">
-    <i class='bx bx-plus'></i>
-    <span>À regarder</span>
-  </button>
+
+<button id="add-to-favorites" class="hero-btnn" title="Ajouter aux favoris">
+  <i class='bx bx-heart'></i>
+</button>
+
+<button id="add-to-watchlist" class="hero-btnn" title="Ajouter à la Watchlist">
+  <i class='bx bx-bookmark'></i>
+</button>
+
+
 </div>
 
 
     </div>
   </div>
+
 </div>
 
 
@@ -919,3 +930,66 @@ player.on('ended', () => {
 
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <h4>Filtrer par :</h4>
+    <div class="checkbox-row">
+      <label><input type="checkbox" class="filter-option" value="action"> Action</label>
+      <label><input type="checkbox" class="filter-option" value="romance"> Romance</label>
+      <label><input type="checkbox" class="filter-option" value="fantasy"> Fantasy</label>
+      <label><input type="checkbox" class="filter-option" value="comedy"> Comédie</label>
+    </div>
+
+    <hr>
+
+    <h4>Genre :</h4>
+    <div class="checkbox-row">
+      <label><input type="checkbox" class="filter-option" value="shonen"> Shonen</label>
+      <label><input type="checkbox" class="filter-option" value="shojo"> Shojo</label>
+      <label><input type="checkbox" class="filter-option" value="seinen"> Seinen</label>
+    </div>
+
+    <hr>
+
+    <h4>Catégorie :</h4>
+    <div class="checkbox-row">
+      <label><input type="checkbox" class="filter-option" value="anime"> Anime</label>
+      <label><input type="checkbox" class="filter-option" value="serie"> Série</label>
+      <label><input type="checkbox" class="filter-option" value="film"> Film</label>
+    </div>
+
+    <hr>
+
+    <h4>Langue :</h4>
+    <div class="checkbox-row">
+      <label><input type="checkbox" class="filter-option" value="vf"> VF</label>
+      <label><input type="checkbox" class="filter-option" value="vo"> VO</label>
+    </div>
+
+    <hr>
+
+    <div class="filter-row">
+      <label for="date">Année :</label>
+      <select id="date">
+        <option value="all">ALL</option>
+       
+      </select>
+    </div>
+  </div>
+</div>
